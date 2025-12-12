@@ -16,10 +16,29 @@ export default function EmbeddedProject({ embeddedDemo }: EmbeddedProjectProps) 
   const [mounted, setMounted] = useState(false);
   const [htmlContent, setHtmlContent] = useState<string>("");
   const [iframeError, setIframeError] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (embeddedDemo.type === "iframe" && embeddedDemo.src) {
+      setIsLoading(true);
+      setIframeError(false);
+      
+      // Set a timeout to detect if iframe fails to load or shows white screen
+      const timeout = setTimeout(() => {
+        if (!iframeLoaded) {
+          setIframeError(true);
+          setIsLoading(false);
+        }
+      }, 8000); // 8 second timeout
+
+      return () => clearTimeout(timeout);
+    }
+  }, [embeddedDemo, iframeLoaded]);
 
   useEffect(() => {
     if (embeddedDemo.type === "html" && embeddedDemo.htmlFile) {
@@ -50,51 +69,59 @@ export default function EmbeddedProject({ embeddedDemo }: EmbeddedProjectProps) 
     <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 overflow-hidden">
       {embeddedDemo.type === "iframe" && embeddedDemo.src && (
         <div className="relative">
+          {isLoading && !iframeLoaded && (
+            <div className="w-full rounded-lg bg-white/5 border border-white/10 p-8 flex flex-col items-center justify-center text-center" style={{ height, minHeight: "400px" }}>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-400 mb-4"></div>
+              <div className="text-gray-400">Loading Streamlit app...</div>
+            </div>
+          )}
           {iframeError ? (
             <div className="w-full rounded-lg bg-white/5 border border-white/10 p-8 flex flex-col items-center justify-center text-center" style={{ height, minHeight: "400px" }}>
               <div className="text-red-400 mb-4 text-xl">⚠️ Unable to Embed</div>
               <p className="text-gray-400 mb-4">
-                Google Drive files cannot be embedded directly. You need to deploy your Streamlit app.
+                The Streamlit app cannot be embedded. This usually means embedding is not enabled.
               </p>
-              <div className="space-y-2 text-sm text-gray-500">
-                <p><strong>Option 1:</strong> Deploy to Streamlit Cloud (free)</p>
-                <p><strong>Option 2:</strong> Use the &quot;View Demo Video&quot; button above to watch the demo</p>
-                <p><strong>Option 3:</strong> Update the URL to your deployed Streamlit app</p>
+              <div className="space-y-2 text-sm text-gray-500 mb-4 max-w-2xl">
+                <p><strong>Solution 1:</strong> Make sure your Streamlit URL includes <code className="bg-white/10 px-2 py-1 rounded">?embed=true</code></p>
+                <p className="mt-2"><strong>Solution 2:</strong> Add a <code className="bg-white/10 px-2 py-1 rounded">.streamlit/config.toml</code> file to your Streamlit project:</p>
+                <pre className="bg-black/50 p-4 rounded text-left text-xs overflow-x-auto">
+{`[server]
+enableXsrfProtection = false
+enableCORS = false`}
+                </pre>
+                <p className="mt-2">Then commit, push to GitHub, and Streamlit Cloud will automatically redeploy.</p>
+                <p className="mt-4 text-gray-400">The app URL should be: <code className="bg-white/10 px-2 py-1 rounded text-xs">{embeddedDemo.src}</code></p>
+                <p className="mt-2 text-xs text-gray-500">Note: Some browsers block third-party cookies. Try opening in incognito mode or allowing cookies for this site.</p>
               </div>
               <a
-                href="https://streamlit.io/cloud"
+                href={embeddedDemo.src}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300"
+                className="mt-4 px-6 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-teal-700 hover:to-cyan-700 transition-all duration-300"
               >
-                Deploy to Streamlit Cloud
+                Open App in New Tab
               </a>
             </div>
           ) : (
-            <iframe
-              src={embeddedDemo.src}
-              className="w-full rounded-lg border-0"
-              style={{ height, minHeight: "400px" }}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title="Embedded Project"
-              onError={() => setIframeError(true)}
-              onLoad={(e) => {
-                // Check if iframe loaded successfully
-                try {
-                  const iframe = e.target as HTMLIFrameElement;
-                  // If we can't access content, it might be blocked
-                  if (!iframe.contentWindow) {
-                    setIframeError(true);
-                  }
-                } catch (err) {
-                  // Cross-origin restrictions - this is expected for Google Drive
-                  if (embeddedDemo.src?.includes('drive.google.com')) {
-                    setIframeError(true);
-                  }
-                }
-              }}
-            />
+            <div className="relative">
+              <iframe
+                src={embeddedDemo.src}
+                className="w-full rounded-lg border-0 bg-white"
+                style={{ height, minHeight: "400px" }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; camera; microphone"
+                allowFullScreen
+                title="Embedded Project"
+                loading="eager"
+                onLoad={() => {
+                  setIframeLoaded(true);
+                  setIsLoading(false);
+                }}
+                onError={() => {
+                  setIframeError(true);
+                  setIsLoading(false);
+                }}
+              />
+            </div>
           )}
         </div>
       )}

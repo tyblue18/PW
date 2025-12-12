@@ -61,7 +61,7 @@ export const projects: Project[] = [
     description: "Built end-to-end PSO segmentation achieving 0.813 Dice score and 0 false positives on 75,000 axial brain MRI scans from the BraTS dataset.",
     longDescription: "This project implements Particle Swarm Optimization (PSO) for automated brain tumor segmentation on MRI scans from the BraTS dataset. The algorithm optimizes segmentation parameters to achieve high accuracy while minimizing false positives. The system processes 75,000 axial brain MRI scans with robust performance metrics.",
     thumbnail: "🧠",
-    github: "https://github.com/yourusername/pso-mri-segmentation",
+    github: "https://github.com/tyblue18/PSO",
     demo: null,
     paper: "/docs/pso-mri-segmentation-paper.pdf",
     tags: ["Python", "PSO", "Computer Vision", "Medical Imaging"],
@@ -131,76 +131,96 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "ai-volunteer-scheduler",
-    title: "AI Volunteer Scheduler",
-    description: "Automatic weekly scheduling using LLM reasoning and user constraints via OpenRouter API.",
-    longDescription: "An intelligent scheduling system that uses Large Language Models (LLMs) through the OpenRouter API to automatically generate optimal volunteer schedules. The system considers multiple constraints including availability, skills, preferences, and organizational needs to create conflict-free schedules.",
-    thumbnail: "📅",
-    github: "https://github.com/yourusername/ai-volunteer-scheduler",
+    slug: "amp-algorithmic-market-predictor",
+    title: "AMP: Algorithmic Market Predictor",
+    description: "End-to-end pipeline transforming financial text data into labeled training datasets for stock movement prediction using multi-source data collection, ensemble sentiment analysis, and LLM validation.",
+    longDescription: "2-AMP (Automatic Media Processing - Algorithmic Market Predictor) is a production-grade pipeline that transforms raw financial text data into labeled training datasets for stock movement prediction. The system implements a multi-stage architecture: data ingestion from SEC EDGAR filings and GDELT news articles, text preprocessing, ensemble sentiment analysis (VADER + FinBERT), LLM validation via Google Gemini, and automated price-based labeling. Features include three-tier fallback data retrieval (Submissions API → Search-Index API → HTML scraping), temporal chunking for efficient API usage, real-time RSS monitoring, and return calculation with multiple horizons (3-day, 5-day). The ensemble voting mechanism combines traditional ML (TF-IDF+Logistic Regression), lexicon-based (VADER), and transformer-based (FinBERT) models, with LLM contextual review for edge cases.",
+    thumbnail: "📈",
+    github: "https://github.com/tyblue18/Automated-Trading",
     demo: null,
-    tags: ["Python", "LLM", "OpenRouter", "Optimization"],
-    featured: true,
-    technologies: ["Python", "OpenRouter API", "FastAPI", "PostgreSQL"],
-    challenges: [
-      "Integrating LLM reasoning with constraint satisfaction",
-      "Handling complex scheduling constraints",
-      "Ensuring fair distribution of volunteer assignments"
-    ],
-    results: [
-      "Automated weekly scheduling for 50+ volunteers",
-      "95% satisfaction rate from users",
-      "Reduced scheduling time from hours to minutes"
-    ],
-    date: "2024",
-  },
-  {
-    slug: "car-soccer-game",
-    title: "Interactive Car Soccer Game",
-    description: "In-browser playable physics-based car soccer game built with Unity. Features realistic car physics, ball dynamics, and smooth gameplay.",
-    longDescription: "A fully interactive physics-based car soccer game built with Unity. Features realistic car physics, ball dynamics, AI opponent, and smooth gameplay. Built as a WebGL application for browser compatibility, demonstrating proficiency in game development, Unity engine, and real-time 3D rendering.",
-    thumbnail: "⚽",
-    github: "https://github.com/yourusername/car-soccer",
-    demo: "#demo",
     embeddedDemo: {
-      type: "html",
-      htmlFile: "/projects/car-soccer/index.html",
-      height: "700px"
+      type: "iframe",
+      src: "https://tyblue18-automated-trading-app-9dse9i.streamlit.app/?embed=true",
+      height: "800px"
     },
-    tags: ["Unity", "C#", "WebGL", "Game Development", "3D"],
+    tags: ["Python", "NLP", "Financial Data", "Sentiment Analysis", "LLM", "Machine Learning"],
     featured: true,
-    technologies: ["Unity", "C#", "WebGL", "3D Physics", "Unity Engine"],
+    technologies: [
+      "Python",
+      "pandas",
+      "NumPy",
+      "PyTorch",
+      "Transformers",
+      "FinBERT",
+      "VADER",
+      "Google Gemini API",
+      "SEC EDGAR API",
+      "GDELT API",
+      "BeautifulSoup",
+      "yfinance",
+      "REST APIs"
+    ],
     challenges: [
-      "Implementing realistic physics simulation",
-      "Creating responsive AI opponent",
-      "Optimizing performance for smooth 60fps gameplay"
+      "Implementing three-tier fallback strategy for reliable data retrieval (Submissions API → Search-Index API → HTML scraping)",
+      "Designing temporal chunking strategy (daily for ≤2014, monthly for >2014) to balance API efficiency with data completeness",
+      "Building ensemble voting mechanism combining VADER, FinBERT, and TF-IDF+Logistic Regression with intelligent tie-breaking",
+      "Integrating LLM validation layer (Google Gemini) for contextual reasoning and edge case handling",
+      "Implementing robust return calculation algorithm handling non-trading days and multiple prediction horizons",
+      "Building real-time RSS monitoring system with deduplication and continuous sentiment analysis"
     ],
     results: [
-      "Smooth 60fps gameplay",
-      "Responsive controls and physics",
-      "Fully playable in-browser demo"
+      "Production-grade pipeline processing financial text from multiple heterogeneous sources (SEC EDGAR, GDELT, RSS feeds)",
+      "Ensemble sentiment analysis achieving high accuracy through multi-model voting and LLM validation",
+      "Automated labeling system linking text sentiment to actual market movements (3-day and 5-day returns)",
+      "Robust error handling with exponential backoff retry logic and graceful degradation",
+      "Real-time monitoring capabilities for live market analysis with 10-minute polling intervals",
+      "Labeled datasets ready for algorithmic trading model development"
     ],
     date: "2024",
+    images: [
+      {
+        src: "/projects/programflow.jpeg",
+        alt: "AMP Program Flow Diagram",
+        caption: "Complete system architecture and data flow diagram showing the end-to-end pipeline from data collection (SEC EDGAR, GDELT, RSS feeds) through text preprocessing, ensemble sentiment analysis (VADER + FinBERT), LLM validation (Google Gemini), return calculation, and automated labeling for stock movement prediction."
+      }
+    ],
   },
   {
     slug: "hpc-dashboard",
-    title: "HPC Dashboard",
-    description: "Used Thicket/Caliper CSVs to visualize performance metrics in interactive graphs with Dash and Plotly.",
-    longDescription: "A comprehensive High-Performance Computing (HPC) performance visualization dashboard built with Dash and Plotly. Processes Thicket and Caliper CSV data to generate interactive graphs showing performance metrics, bottlenecks, and optimization opportunities for HPC applications.",
+    title: "Perfvis: HPC Performance Visualization Dashboard",
+    description: "End-to-end HPC performance analysis pipeline: C++ instrumentation with Caliper, CSV conversion via Thicket, and interactive web dashboard with 12 visualization types.",
+    longDescription: "Perfvis is a comprehensive HPC performance analysis tool that instruments C++ applications with Caliper, converts performance data to CSV using LLNL Thicket, and visualizes metrics in an interactive Dash web dashboard. The system includes automatic data detection, anomaly detection, and 12 visualization types (bar graphs, line graphs, scatter plots, histograms, box plots, heatmaps, stacked area charts, roofline models, call graphs, parallel coordinates, time series, and violin plots). Features drag-and-drop CSV uploads, paginated data tables with filtering/sorting, and data export capabilities. Built with a complete automation pipeline including build scripts for Caliper, test compilation, execution, and dashboard deployment.",
     thumbnail: "📊",
-    github: "https://github.com/yourusername/hpc-dashboard",
-    demo: null,
-    tags: ["Python", "Dash", "Plotly", "HPC", "Data Visualization"],
+    github: "https://github.com/tyblue18/HPC",
+    demo: "https://hpc-nadj.onrender.com/",
+    tags: ["Python", "Dash", "Plotly", "HPC", "C++", "Caliper", "Data Visualization"],
     featured: true,
-    technologies: ["Python", "Dash", "Plotly", "Pandas", "Thicket", "Caliper"],
+    technologies: [
+      "Python",
+      "Dash",
+      "Plotly",
+      "Pandas",
+      "NumPy",
+      "LLNL Thicket",
+      "Caliper",
+      "C++",
+      "CMake",
+      "Bash"
+    ],
     challenges: [
-      "Processing large-scale HPC performance data",
-      "Creating intuitive visualizations for complex metrics",
-      "Handling multiple data formats from different profiling tools"
+      "Building end-to-end pipeline from C++ instrumentation to web visualization",
+      "Implementing automatic column type detection and semantic analysis (time metrics, regions, threads, nodes)",
+      "Creating 12 distinct visualization types with interactive Plotly charts",
+      "Handling Caliper binary format conversion to CSV via Thicket",
+      "Implementing anomaly detection for performance metrics (high variance, missing values, invalid times)",
+      "Managing state across 15+ Dash callbacks for real-time data updates"
     ],
     results: [
-      "Interactive visualization of HPC performance data",
-      "Identified key performance bottlenecks",
-      "Streamlined performance analysis workflow"
+      "Complete automation pipeline: build scripts for Caliper, test compilation, execution, and dashboard deployment",
+      "12 visualization types enabling comprehensive performance analysis (bar, line, scatter, histogram, box, heatmap, stacked area, roofline, call graph, parallel coordinates, time series, violin)",
+      "Automatic data detection and semantic analysis for time metrics, regions, threads, and nodes",
+      "Interactive web dashboard with drag-and-drop CSV uploads, filtering, sorting, and data export",
+      "Production-ready system handling real Caliper performance data from HPC applications"
     ],
     date: "2024",
   },
@@ -210,12 +230,12 @@ export const projects: Project[] = [
     description: "AI-powered password security analysis platform combining rule-based checking with RAG-enhanced LLM explanations for comprehensive security assessments.",
     longDescription: "An AI-powered password security analysis platform that combines rule-based password checking with RAG-enhanced LLM explanations to provide comprehensive password security assessments and recommendations. Features comprehensive analysis including common password detection (1.1M+ database), pattern detection, entropy calculation, and AI-powered explanations using RAG system with NIST, PCI-DSS, and ISO 27001 standards. All processing runs locally for privacy.",
     thumbnail: "🔐",
-    github: "https://github.com/yourusername/password-security-enhancement",
+    github: "https://github.com/tyblue18/Password-Security-Enhancements",
     demo: null,
     demoVideo: "https://drive.google.com/file/d/1YBEiPO4fZKozyXb6ubaCQqtJr1wh7UlP/view?usp=sharing",
     embeddedDemo: {
       type: "iframe",
-      src: "https://password-security-enhancements-edn6awqzt9ct5tedt472ah.streamlit.app",
+      src: "https://password-security-enhancements-okygcudyad9pxk3tpbryb6.streamlit.app/?embed=true",
       height: "800px"
     },
     paper: null,
@@ -226,7 +246,7 @@ export const projects: Project[] = [
       "LangChain",
       "ChromaDB",
       "Streamlit",
-      "Ollama",
+      "OpenRouter API",
       "Llama 3.2",
       "HuggingFace Embeddings",
       "Vector Databases",
@@ -269,6 +289,56 @@ export const projects: Project[] = [
         description: "Specialized knowledge bases"
       }
     ],
+  },
+  {
+    slug: "car-soccer-game",
+    title: "Interactive Car Soccer Game",
+    description: "In-browser playable physics-based car soccer game built with Unity. Features realistic car physics, ball dynamics, and smooth gameplay.",
+    longDescription: "A fully interactive physics-based car soccer game built with Unity. Features realistic car physics, ball dynamics, and smooth two-player gameplay. Built as a WebGL application for browser compatibility, demonstrating proficiency in game development, Unity engine, and real-time 3D rendering.",
+    thumbnail: "⚽",
+    github: "https://github.com/yourusername/car-soccer",
+    demo: null,
+    embeddedDemo: {
+      type: "html",
+      htmlFile: "/projects/car-soccer/index.html",
+      height: "700px"
+    },
+    tags: ["Unity", "C#", "WebGL", "Game Development", "3D"],
+    featured: true,
+    technologies: ["Unity", "C#", "WebGL", "3D Physics", "Unity Engine"],
+    challenges: [
+      "Implementing realistic physics simulation",
+      "Optimizing performance for smooth 60fps gameplay"
+    ],
+    results: [
+      "Smooth 60fps gameplay",
+      "Responsive controls and physics",
+      "Fully playable in-browser demo"
+    ],
+    date: "2024",
+  },
+  {
+    slug: "ai-volunteer-scheduler",
+    title: "AI Volunteer Scheduler",
+    description: "Automatic weekly scheduling using LLM reasoning and user constraints via OpenRouter API.",
+    longDescription: "An intelligent scheduling system that uses Large Language Models (LLMs) through the OpenRouter API to automatically generate optimal volunteer schedules. The system considers multiple constraints including availability, skills, preferences, and organizational needs to create conflict-free schedules.",
+    thumbnail: "📅",
+    github: "https://github.com/yourusername/ai-volunteer-scheduler",
+    demo: null,
+    tags: ["Python", "LLM", "OpenRouter", "Optimization"],
+    featured: false,
+    technologies: ["Python", "OpenRouter API", "FastAPI", "PostgreSQL"],
+    challenges: [
+      "Integrating LLM reasoning with constraint satisfaction",
+      "Handling complex scheduling constraints",
+      "Ensuring fair distribution of volunteer assignments"
+    ],
+    results: [
+      "Automated weekly scheduling for 50+ volunteers",
+      "95% satisfaction rate from users",
+      "Reduced scheduling time from hours to minutes"
+    ],
+    date: "2024",
   },
 ];
 

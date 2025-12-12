@@ -7,6 +7,63 @@ import GraphsSection from "./GraphsSection";
 import MetricsDisplay from "./MetricsDisplay";
 import EmbeddedProject from "./EmbeddedProject";
 
+function PromptCard({ title, prompt }: { title: string; prompt: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(prompt);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
+  return (
+    <div
+      className="bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-teal-500"
+      onClick={handleCopy}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleCopy();
+        }
+      }}
+      tabIndex={0}
+      role="button"
+      aria-label={`Copy prompt: ${title}`}
+    >
+      <div className="flex items-start gap-3">
+        <div className="flex-1">
+          <h3 className="text-white font-semibold mb-2">{title}</h3>
+          <div className="relative">
+            <code className="text-sm text-teal-300 bg-black/30 px-3 py-2 rounded block break-all">
+              {prompt}
+            </code>
+            {copied && (
+              <div className="absolute top-0 right-0 bg-green-500 text-white text-xs px-2 py-1 rounded" role="status" aria-live="polite">
+                Copied!
+              </div>
+            )}
+          </div>
+          <p className="text-xs text-gray-500 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            Click to copy
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function KeyButton({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="bg-gradient-to-b from-gray-700 to-gray-800 border border-gray-600 rounded-md px-4 py-2 text-white font-semibold text-sm shadow-lg hover:from-gray-600 hover:to-gray-700 transition-all min-w-[50px] text-center">
+      {children}
+    </div>
+  );
+}
+
 interface ProjectDetailProps {
   project: Project;
 }
@@ -27,7 +84,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         }`}
       >
         <div className="text-6xl mb-6">{project.thumbnail}</div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
           {project.title}
         </h1>
         <p className="text-xl text-gray-300 mb-6">{project.description}</p>
@@ -37,7 +94,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className="px-4 py-2 bg-purple-500/20 text-purple-300 text-sm rounded-full border border-purple-500/30"
+              className="px-4 py-2 bg-teal-500/20 text-teal-300 text-sm rounded-full border border-teal-500/30"
             >
               {tag}
             </span>
@@ -72,7 +129,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 inline-flex items-center gap-2"
+              className="px-6 py-3 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold rounded-lg hover:from-teal-700 hover:to-cyan-700 transition-all duration-300 inline-flex items-center gap-2"
             >
               <svg
                 className="w-5 h-5"
@@ -105,22 +162,28 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               </svg>
             </a>
           )}
-          {project.demoVideo && (
-            <a
-              href={project.demoVideo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 bg-gradient-to-r from-red-600 to-pink-600 text-white font-semibold rounded-lg hover:from-red-700 hover:to-pink-700 transition-all duration-300 inline-flex items-center gap-2"
+          {project.embeddedDemo && project.embeddedDemo.src && (
+            <button
+              onClick={() => {
+                document.getElementById("interactive-demo")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              aria-label="Scroll to interactive demo"
+              className="px-6 py-3 bg-gradient-to-r from-red-600 to-pink-600 text-white font-semibold rounded-lg hover:from-red-700 hover:to-pink-700 transition-all duration-300 inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-gray-900"
             >
               <svg
                 className="w-5 h-5"
-                fill="currentColor"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <path d="M8 5v14l11-7z"/>
+                <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              View Demo Video
-            </a>
+              Interactive Demo
+            </button>
           )}
           {project.date && (
             <span className="px-6 py-3 text-gray-400 text-sm">
@@ -144,6 +207,80 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         </div>
       )}
 
+      {/* Usage Section */}
+      {project.slug === "password-security-enhancement" && project.embeddedDemo && (
+        <div
+          className={`mb-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 transition-all duration-1000 delay-200 ${
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          <h2 className="text-2xl font-semibold mb-4 text-white">How to Use</h2>
+          <p className="text-gray-300 mb-6">
+            Try these example prompts in the interactive demo below. Click any prompt to copy it:
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <PromptCard
+              title="Generate Long Secure Password"
+              prompt="Generate me a long secure password"
+            />
+            <PromptCard
+              title="Rate Your Password"
+              prompt="Rate my password: [your password]"
+            />
+            <PromptCard
+              title="Check Password Strength"
+              prompt="Check the strength of: password123"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Controls Section for Car Soccer */}
+      {project.slug === "car-soccer-game" && project.embeddedDemo && (
+        <div
+          className={`mb-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 transition-all duration-1000 delay-200 ${
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          <h2 className="text-2xl font-semibold mb-6 text-white">Controls</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white/5 border border-white/10 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Player 1</h3>
+              <div className="flex flex-wrap gap-2">
+                <KeyButton>W</KeyButton>
+                <KeyButton>S</KeyButton>
+                <KeyButton>A</KeyButton>
+                <KeyButton>D</KeyButton>
+              </div>
+              <p className="text-sm text-gray-400 mt-4">Move your car</p>
+            </div>
+            <div className="bg-white/5 border border-white/10 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Player 2</h3>
+              <div className="flex flex-wrap gap-2">
+                <KeyButton>↑</KeyButton>
+                <KeyButton>↓</KeyButton>
+                <KeyButton>←</KeyButton>
+                <KeyButton>→</KeyButton>
+              </div>
+              <p className="text-sm text-gray-400 mt-4">Move your car</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Embedded Demo */}
+      {project.embeddedDemo && (
+        <div
+          id="interactive-demo"
+          className={`mb-12 transition-all duration-1000 delay-200 ${
+            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          <h2 className="text-2xl font-semibold mb-6 text-white">Interactive Demo</h2>
+          <EmbeddedProject embeddedDemo={project.embeddedDemo} />
+        </div>
+      )}
+
       {/* Technologies */}
       {project.technologies && project.technologies.length > 0 && (
         <div
@@ -156,7 +293,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             {project.technologies.map((tech) => (
               <span
                 key={tech}
-                className="px-4 py-2 bg-blue-500/20 text-blue-300 rounded-lg border border-blue-500/30"
+                className="px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg border border-cyan-500/30"
               >
                 {tech}
               </span>
@@ -176,23 +313,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           <ul className="space-y-3">
             {project.challenges.map((challenge, index) => (
               <li key={index} className="text-gray-300 flex items-start">
-                <span className="text-purple-400 mr-3">•</span>
+                <span className="text-teal-400 mr-3">•</span>
                 <span>{challenge}</span>
               </li>
             ))}
           </ul>
-        </div>
-      )}
-
-      {/* Embedded Demo */}
-      {project.embeddedDemo && (
-        <div
-          className={`mb-12 transition-all duration-1000 delay-300 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          <h2 className="text-2xl font-semibold mb-6 text-white">Try It Live</h2>
-          <EmbeddedProject embeddedDemo={project.embeddedDemo} />
         </div>
       )}
 

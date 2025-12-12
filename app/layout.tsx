@@ -2,8 +2,21 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Tanishq | Software Engineer & AI Systems",
-  description: "Software Engineer | Backend & AI Systems | Performance Optimization",
+  title: "Tanishq Somani | Software Engineer & AI Systems",
+  description: "Software Engineer specializing in Backend & AI Systems, Performance Optimization, and HPC. Portfolio showcasing projects in machine learning, computer vision, and high-performance computing.",
+  keywords: ["Software Engineer", "AI Systems", "Backend Development", "Performance Optimization", "Machine Learning", "HPC", "Computer Vision"],
+  authors: [{ name: "Tanishq Somani" }],
+  openGraph: {
+    title: "Tanishq Somani | Software Engineer & AI Systems",
+    description: "Software Engineer specializing in Backend & AI Systems, Performance Optimization, and HPC.",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tanishq Somani | Software Engineer & AI Systems",
+    description: "Software Engineer specializing in Backend & AI Systems, Performance Optimization, and HPC.",
+  },
 };
 
 export default function RootLayout({
