@@ -138,3 +138,4 @@ GitHub Pages doesn't support Next.js server-side features. You'd need to:
 3. This loses dynamic features
 
 **Recommendation**: Use Vercel for best Next.js experience.
+

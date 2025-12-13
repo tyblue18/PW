@@ -11,18 +11,36 @@ export default function AboutMe() {
   }, []);
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-b from-gray-900 to-black">
-      <div className="max-w-4xl mx-auto">
-        <h2 
-          className={`text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-          }`}
-        >
-          About Me
-        </h2>
+    <section id="about" className="py-24 px-4 bg-black relative">
+      {/* Space background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/10 to-black"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div>
+      {/* Animated Nebula effect */}
+      <div 
+        className="absolute top-1/3 right-1/3 w-80 h-80 bg-teal-500/5 rounded-full blur-3xl"
+        style={{
+          animation: "nebulaFloat 10s ease-in-out infinite",
+        }}
+      ></div>
+      
+      <div className="max-w-5xl mx-auto relative z-10">
+        {/* Section header with code styling */}
+        <div className="mb-12">
+          <div className="flex items-center gap-4 mb-4">
+            <span className="text-teal-400 font-mono text-sm">04.</span>
+            <h2 
+              className={`text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
+                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+            >
+              About Me
+            </h2>
+            <div className="flex-1 h-px bg-gradient-to-r from-teal-500/50 to-transparent"></div>
+          </div>
+        </div>
         
         <div 
-          className={`bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 md:p-12 transition-all duration-1000 delay-200 ${
+          className={`bg-white/5 border border-white/10 rounded-lg p-8 md:p-12 transition-all duration-1000 delay-200 ${
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
