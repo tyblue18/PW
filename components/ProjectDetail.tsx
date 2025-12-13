@@ -83,7 +83,6 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <div className="text-6xl mb-6">{project.thumbnail}</div>
         <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
           {project.title}
         </h1>
