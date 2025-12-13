@@ -56,7 +56,7 @@ export default function Navigation() {
               className="text-xl font-bold font-mono bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent hover:from-teal-300 hover:to-cyan-300 transition-all"
               aria-label="Scroll to top"
             >
-              &lt;TS /&gt;
+              &lt;Tanishq /&gt;
             </button>
           </div>
 
