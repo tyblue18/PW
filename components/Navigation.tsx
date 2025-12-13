@@ -50,10 +50,10 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Name */}
-          <div className="flex items-center">
+          <div className="flex items-center min-w-0 flex-shrink">
             <button
               onClick={() => scrollToSection("home")}
-              className="text-xl font-bold font-mono bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent hover:from-teal-300 hover:to-cyan-300 transition-all"
+              className="text-base sm:text-lg md:text-xl font-bold font-mono bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent hover:from-teal-300 hover:to-cyan-300 transition-all whitespace-nowrap"
               aria-label="Scroll to top"
             >
               &lt;Tanishq /&gt;
@@ -61,7 +61,7 @@ export default function Navigation() {
           </div>
 
           {/* Navigation Items */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-1 flex-shrink-0">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -75,8 +75,8 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          {/* Mobile/Tablet Menu Button */}
+          <div className="lg:hidden">
             <button
               className="text-gray-300 hover:text-teal-400 transition-colors"
               aria-label="Mobile menu"

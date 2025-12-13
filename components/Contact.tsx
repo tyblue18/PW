@@ -69,7 +69,7 @@ export default function Contact() {
               href={link.url}
               target={link.url.startsWith("mailto:") ? undefined : "_blank"}
               rel={link.url.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-              className="group flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation"
+              className="group flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation min-h-[44px]"
             >
               <span className="text-lg sm:text-xl">{link.icon}</span>
               <span className="text-white font-semibold text-xs sm:text-sm font-mono">{link.name}</span>

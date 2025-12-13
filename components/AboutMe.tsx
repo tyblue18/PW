@@ -59,7 +59,7 @@ export default function AboutMe() {
           </div>
 
           <div className="prose prose-invert max-w-none">
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed mb-4 sm:mb-6">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed mb-4 sm:mb-5 md:mb-6">
               I&apos;m Tanishq, a software engineer with a background in microbiology. I now work as a Graduate Assistant specializing in programming and automation, building tools that streamline workflows and improve system efficiency. My path from life sciences into computer science gives me a unique perspective. I understand both the complexity of biological data and the engineering that&apos;s required to analyze, optimize, and build tools around it.
             </p>
             

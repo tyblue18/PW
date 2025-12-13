@@ -92,7 +92,7 @@ export default function TechnicalSkills() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
           {skills.map((skill, index) => {
             // Fixed random values per card to avoid re-renders
             const cardRotation = [-0.2, 0.15, -0.1, 0.2, -0.15, 0.1, -0.25, 0.18, -0.12][index % 9];

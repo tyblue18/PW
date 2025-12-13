@@ -47,7 +47,7 @@ export default function FeaturedProjects() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {projects.map((project, index) => {
             // Fixed random values per project
             const cardRotation = [-0.15, 0.18, -0.12, 0.2, -0.1][index % 5];
