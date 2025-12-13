@@ -73,13 +73,13 @@ export default function TechnicalSkills() {
         }}
       ></div>
       
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
         {/* Section header with code styling */}
-        <div className="mb-16">
-          <div className="flex items-center gap-4 mb-4">
-            <span className="text-teal-400 font-mono text-sm">02.</span>
+        <div className="mb-12 sm:mb-16">
+          <div className="flex items-center gap-3 sm:gap-4 mb-4">
+            <span className="text-teal-400 font-mono text-xs sm:text-sm">02.</span>
             <h2 
-              className={`text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
+              className={`text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
                 mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
@@ -87,12 +87,12 @@ export default function TechnicalSkills() {
             </h2>
             <div className="flex-1 h-px bg-gradient-to-r from-teal-500/50 to-transparent"></div>
           </div>
-          <p className="text-gray-400 text-lg ml-12">
+          <p className="text-gray-400 text-base sm:text-lg ml-8 sm:ml-12">
             Technologies and tools I work with
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {skills.map((skill, index) => {
             // Fixed random values per card to avoid re-renders
             const cardRotation = [-0.2, 0.15, -0.1, 0.2, -0.15, 0.1, -0.25, 0.18, -0.12][index % 9];
@@ -102,7 +102,7 @@ export default function TechnicalSkills() {
             return (
               <div
                 key={skill.category}
-                className={`group bg-white/5 border border-white/10 rounded-lg p-6 hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/10 hover:scale-[1.02] hover:-translate-y-0.5 transition-all duration-1000 ${
+                className={`group bg-white/5 border border-white/10 rounded-lg p-4 sm:p-6 hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/10 hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-1000 touch-manipulation ${
                   mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
                 style={{ 

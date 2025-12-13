@@ -23,13 +23,13 @@ export default function AboutMe() {
         }}
       ></div>
       
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="max-w-5xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
         {/* Section header with code styling */}
-        <div className="mb-12">
-          <div className="flex items-center gap-4 mb-4">
-            <span className="text-teal-400 font-mono text-sm">04.</span>
+        <div className="mb-8 sm:mb-12">
+          <div className="flex items-center gap-3 sm:gap-4 mb-4">
+            <span className="text-teal-400 font-mono text-xs sm:text-sm">04.</span>
             <h2 
-              className={`text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
+              className={`text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
                 mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
@@ -40,7 +40,7 @@ export default function AboutMe() {
         </div>
         
         <div 
-          className={`bg-white/5 border border-white/10 rounded-lg p-8 md:p-12 transition-all duration-1000 delay-200 ${
+          className={`bg-white/5 border border-white/10 rounded-lg p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-1000 delay-200 ${
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
@@ -59,7 +59,7 @@ export default function AboutMe() {
           </div>
 
           <div className="prose prose-invert max-w-none">
-            <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed mb-4 sm:mb-6">
               I&apos;m Tanishq, a software engineer with a background in microbiology. I now work as a Graduate Assistant specializing in programming and automation, building tools that streamline workflows and improve system efficiency. My path from life sciences into computer science gives me a unique perspective. I understand both the complexity of biological data and the engineering that&apos;s required to analyze, optimize, and build tools around it.
             </p>
             

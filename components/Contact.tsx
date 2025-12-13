@@ -39,13 +39,13 @@ export default function Contact() {
         }}
       ></div>
       
-      <div className="max-w-5xl mx-auto text-center relative z-10">
+      <div className="max-w-5xl mx-auto text-center relative z-10 px-4 sm:px-6 lg:px-8">
         {/* Section header with code styling */}
-        <div className="mb-12">
-          <div className="flex items-center gap-4 mb-4 justify-center">
-            <span className="text-teal-400 font-mono text-sm">05.</span>
+        <div className="mb-8 sm:mb-12">
+          <div className="flex items-center gap-3 sm:gap-4 mb-4 justify-center">
+            <span className="text-teal-400 font-mono text-xs sm:text-sm">05.</span>
             <h2 
-              className={`text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
+              className={`text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
                 mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
@@ -53,13 +53,13 @@ export default function Contact() {
             </h2>
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-teal-500/50 to-transparent max-w-xs"></div>
           </div>
-          <p className="text-gray-400 text-lg">
+          <p className="text-gray-400 text-base sm:text-lg">
             Let&apos;s connect and discuss opportunities in AI, optimization, or performance engineering.
           </p>
         </div>
 
         <div 
-          className={`flex flex-wrap justify-center gap-4 transition-all duration-1000 delay-200 ${
+          className={`flex flex-wrap justify-center gap-3 sm:gap-4 transition-all duration-1000 delay-200 ${
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
@@ -69,10 +69,10 @@ export default function Contact() {
               href={link.url}
               target={link.url.startsWith("mailto:") ? undefined : "_blank"}
               rel={link.url.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-              className="group flex items-center gap-3 px-6 py-3 bg-white/5 border border-white/10 rounded hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:scale-105"
+              className="group flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 bg-white/5 border border-white/10 rounded hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:scale-105 active:scale-95 touch-manipulation"
             >
-              <span className="text-xl">{link.icon}</span>
-              <span className="text-white font-semibold text-sm font-mono">{link.name}</span>
+              <span className="text-lg sm:text-xl">{link.icon}</span>
+              <span className="text-white font-semibold text-xs sm:text-sm font-mono">{link.name}</span>
               <span className="text-teal-400 opacity-0 group-hover:opacity-100 transition-opacity">→</span>
             </a>
           ))}
