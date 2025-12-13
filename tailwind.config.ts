@@ -15,6 +15,10 @@ const config: Config = {
     },
   },
   plugins: [],
+  // Optimize CSS output
+  corePlugins: {
+    preflight: true,
+  },
 };
 export default config;
 

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import StructuredData from "./structured-data";
 import "./globals.css";
 
 const inter = Inter({ 
@@ -18,11 +19,24 @@ export const metadata: Metadata = {
     description: "Software Engineer specializing in Backend & AI Systems, Performance Optimization, and HPC.",
     type: "website",
     locale: "en_US",
+    url: "https://t-tanishqs.vercel.app",
+    siteName: "Tanishq Somani Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "Tanishq Somani | Software Engineer & AI Systems",
     description: "Software Engineer specializing in Backend & AI Systems, Performance Optimization, and HPC.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -33,6 +47,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://www.linkedin.com" />
+        <link rel="preconnect" href="https://github.com" />
+        <link rel="dns-prefetch" href="https://www.linkedin.com" />
+        <link rel="dns-prefetch" href="https://github.com" />
+        <StructuredData />
+      </head>
       <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );
