@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { ProjectImage } from "@/data/projects";
 
 interface ImageGalleryProps {
@@ -43,11 +44,12 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
             key={index}
             className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-teal-500/50 transition-all duration-300"
           >
-            <div className="bg-black/30 rounded-lg p-4 mb-4 overflow-hidden">
-              <img
+            <div className="bg-black/30 rounded-lg p-4 mb-4 overflow-hidden relative aspect-video">
+              <Image
                 src={image.src}
                 alt={image.alt}
-                className="w-full h-auto rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                fill
+                className="object-contain rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
                 onClick={() => setSelectedImage(index)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -58,11 +60,8 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
                 tabIndex={0}
                 role="button"
                 aria-label={`View ${image.alt} in full size`}
-                onError={(e) => {
-                  // Fallback if image doesn't exist
-                  const target = e.target as HTMLImageElement;
-                  target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'%3E%3Crect fill='%23333' width='800' height='600'/%3E%3Ctext fill='%23999' font-family='sans-serif' font-size='20' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EImage Placeholder%3C/text%3E%3C/svg%3E";
-                }}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                loading="lazy"
               />
             </div>
             {image.caption && (
@@ -146,16 +145,17 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
               </button>
             )}
             
-            <img
-              src={images[selectedImage].src}
-              alt={images[selectedImage].alt}
-              className="max-w-full max-h-[90vh] object-contain rounded-lg"
-              onClick={(e) => e.stopPropagation()}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'%3E%3Crect fill='%23333' width='800' height='600'/%3E%3Ctext fill='%23999' font-family='sans-serif' font-size='24' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EImage Not Found%3C/text%3E%3C/svg%3E";
-              }}
-            />
+            <div className="relative w-full h-[90vh] max-w-7xl mx-auto">
+              <Image
+                src={images[selectedImage].src}
+                alt={images[selectedImage].alt}
+                fill
+                className="object-contain rounded-lg"
+                onClick={(e) => e.stopPropagation()}
+                sizes="90vw"
+                priority
+              />
+            </div>
             {images[selectedImage].caption && (
               <p className="text-white text-center mt-4">{images[selectedImage].caption}</p>
             )}

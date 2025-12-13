@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 export default function Starfield() {
   const [mounted, setMounted] = useState(false);
@@ -9,45 +9,59 @@ export default function Starfield() {
     setMounted(true);
   }, []);
 
-  // Generate stars with different layers for depth
-  const starsFar = Array.from({ length: 100 }).map((_, i) => ({
-    id: `far-${i}`,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 1 + 0.5,
-    opacity: Math.random() * 0.3 + 0.2,
-    twinkle: Math.random() * 4 + 3,
-    drift: Math.random() * 20 + 10,
-  }));
+  // Memoize star generation to prevent recalculation on every render
+  const { starsFar, starsMid, starsNear, shootingStars } = useMemo(() => {
+    // Generate stars with different layers for depth
+    const far = Array.from({ length: 100 }).map((_, i) => ({
+      id: `far-${i}`,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 1 + 0.5,
+      opacity: Math.random() * 0.3 + 0.2,
+      twinkle: Math.random() * 4 + 3,
+      drift: Math.random() * 20 + 10,
+      driftX: Math.random() * 20 - 10,
+      driftY: Math.random() * 20 - 10,
+      delay: Math.random() * 4,
+    }));
 
-  const starsMid = Array.from({ length: 50 }).map((_, i) => ({
-    id: `mid-${i}`,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 2 + 1,
-    opacity: Math.random() * 0.5 + 0.4,
-    twinkle: Math.random() * 3 + 2,
-    drift: Math.random() * 15 + 8,
-  }));
+    const mid = Array.from({ length: 50 }).map((_, i) => ({
+      id: `mid-${i}`,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 2 + 1,
+      opacity: Math.random() * 0.5 + 0.4,
+      twinkle: Math.random() * 3 + 2,
+      drift: Math.random() * 15 + 8,
+      driftX: Math.random() * 15 - 7.5,
+      driftY: Math.random() * 15 - 7.5,
+      delay: Math.random() * 3,
+    }));
 
-  const starsNear = Array.from({ length: 20 }).map((_, i) => ({
-    id: `near-${i}`,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 2,
-    opacity: Math.random() * 0.7 + 0.5,
-    twinkle: Math.random() * 2 + 1,
-    drift: Math.random() * 10 + 5,
-  }));
+    const near = Array.from({ length: 20 }).map((_, i) => ({
+      id: `near-${i}`,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 2,
+      opacity: Math.random() * 0.7 + 0.5,
+      twinkle: Math.random() * 2 + 1,
+      drift: Math.random() * 10 + 5,
+      driftX: Math.random() * 10 - 5,
+      driftY: Math.random() * 10 - 5,
+      delay: Math.random() * 2,
+    }));
 
-  // Shooting stars
-  const shootingStars = Array.from({ length: 3 }).map((_, i) => ({
-    id: `shooting-${i}`,
-    startX: Math.random() * 100,
-    startY: Math.random() * 50,
-    duration: Math.random() * 2 + 1.5,
-    delay: Math.random() * 5,
-  }));
+    // Shooting stars
+    const shooting = Array.from({ length: 3 }).map((_, i) => ({
+      id: `shooting-${i}`,
+      startX: Math.random() * 100,
+      startY: Math.random() * 50,
+      duration: Math.random() * 2 + 1.5,
+      delay: Math.random() * 5,
+    }));
+
+    return { starsFar: far, starsMid: mid, starsNear: near, shootingStars: shooting };
+  }, []);
 
   return (
     <>
@@ -90,7 +104,7 @@ export default function Starfield() {
         {starsFar.map((star) => (
           <div
             key={star.id}
-            className="absolute rounded-full bg-white"
+            className="absolute rounded-full bg-white will-change-transform"
             style={{
               left: `${star.x}%`,
               top: `${star.y}%`,
@@ -98,9 +112,9 @@ export default function Starfield() {
               height: `${star.size}px`,
               opacity: star.opacity,
               animation: `starTwinkle ${star.twinkle}s ease-in-out infinite, starDrift ${star.drift}s ease-in-out infinite alternate`,
-              animationDelay: `${Math.random() * star.twinkle}s`,
-              '--drift-x': `${Math.random() * 20 - 10}px`,
-              '--drift-y': `${Math.random() * 20 - 10}px`,
+              animationDelay: `${star.delay}s`,
+              '--drift-x': `${star.driftX}px`,
+              '--drift-y': `${star.driftY}px`,
             } as React.CSSProperties}
           />
         ))}
@@ -109,7 +123,7 @@ export default function Starfield() {
         {starsMid.map((star) => (
           <div
             key={star.id}
-            className="absolute rounded-full bg-white"
+            className="absolute rounded-full bg-white will-change-transform"
             style={{
               left: `${star.x}%`,
               top: `${star.y}%`,
@@ -117,9 +131,9 @@ export default function Starfield() {
               height: `${star.size}px`,
               opacity: star.opacity,
               animation: `starTwinkle ${star.twinkle}s ease-in-out infinite, starDrift ${star.drift}s ease-in-out infinite alternate`,
-              animationDelay: `${Math.random() * star.twinkle}s`,
-              '--drift-x': `${Math.random() * 15 - 7.5}px`,
-              '--drift-y': `${Math.random() * 15 - 7.5}px`,
+              animationDelay: `${star.delay}s`,
+              '--drift-x': `${star.driftX}px`,
+              '--drift-y': `${star.driftY}px`,
             } as React.CSSProperties}
           />
         ))}
@@ -128,7 +142,7 @@ export default function Starfield() {
         {starsNear.map((star) => (
           <div
             key={star.id}
-            className="absolute rounded-full bg-white shadow-lg shadow-teal-500/50"
+            className="absolute rounded-full bg-white shadow-lg shadow-teal-500/50 will-change-transform"
             style={{
               left: `${star.x}%`,
               top: `${star.y}%`,
@@ -136,9 +150,9 @@ export default function Starfield() {
               height: `${star.size}px`,
               opacity: star.opacity,
               animation: `starTwinkle ${star.twinkle}s ease-in-out infinite, starDrift ${star.drift}s ease-in-out infinite alternate`,
-              animationDelay: `${Math.random() * star.twinkle}s`,
-              '--drift-x': `${Math.random() * 10 - 5}px`,
-              '--drift-y': `${Math.random() * 10 - 5}px`,
+              animationDelay: `${star.delay}s`,
+              '--drift-x': `${star.driftX}px`,
+              '--drift-y': `${star.driftY}px`,
             } as React.CSSProperties}
           />
         ))}

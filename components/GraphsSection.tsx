@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ProjectGraph } from "@/data/projects";
 
 interface GraphsSectionProps {
@@ -22,15 +23,14 @@ export default function GraphsSection({ graphs }: GraphsSectionProps) {
             {graph.title && (
               <h3 className="text-xl font-semibold mb-4 text-white">{graph.title}</h3>
             )}
-            <div className="bg-black/30 rounded-lg p-4 mb-3 overflow-hidden">
-              <img
+            <div className="bg-black/30 rounded-lg p-4 mb-3 overflow-hidden relative aspect-video">
+              <Image
                 src={graph.src}
                 alt={graph.alt}
-                className="w-full h-auto rounded-lg"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Crect fill='%23111' width='800' height='400'/%3E%3Ctext fill='%23999' font-family='sans-serif' font-size='20' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EGraph Placeholder%3C/text%3E%3C/svg%3E";
-                }}
+                fill
+                className="object-contain rounded-lg"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                loading="lazy"
               />
             </div>
             {graph.caption && (
