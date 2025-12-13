@@ -57,10 +57,12 @@ export default function FeaturedProjects() {
             return (
               <div
                 key={project.slug}
-                className={`group bg-white/5 border border-white/10 rounded-lg p-4 sm:p-6 hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/10 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] transition-all duration-1000 touch-manipulation ${
-                  mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                className={`group bg-white/5 border border-white/10 rounded-lg p-4 sm:p-6 hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/10 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] touch-manipulation ${
+                  mounted ? "opacity-100" : "opacity-0"
                 }`}
                 style={{ 
+                  contain: 'layout style paint',
+                  willChange: 'transform, opacity',
                   transitionDelay: `${index * 50}ms`,
                   transform: `rotate(${cardRotation}deg)`,
                 }}

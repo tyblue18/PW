@@ -59,9 +59,13 @@ export default function Contact() {
         </div>
 
         <div 
-          className={`flex flex-wrap justify-center gap-3 sm:gap-4 transition-all duration-1000 delay-200 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          className={`flex flex-wrap justify-center gap-3 sm:gap-4 transition-opacity duration-1000 delay-200 ${
+            mounted ? "opacity-100" : "opacity-0"
           }`}
+          style={{ 
+            contain: 'layout style paint',
+            willChange: mounted ? 'opacity' : 'auto'
+          }}
         >
           {socialLinks.map((link) => (
             <a

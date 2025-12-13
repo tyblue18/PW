@@ -124,32 +124,44 @@ export default function Hero() {
         <div className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
           {/* Left: Content */}
           <div className="text-left">
-            {/* Name with typing */}
+            {/* Name with typing - reserve space to prevent layout shift */}
             <h1 
-              className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-white via-teal-200 to-cyan-200 bg-clip-text text-transparent break-words ${
+              className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-white via-teal-200 to-cyan-200 bg-clip-text text-transparent break-words min-h-[1.2em] ${
                 mounted ? "opacity-100" : "opacity-0"
               }`}
+              style={{ 
+                contain: 'layout style paint',
+                willChange: mounted ? 'opacity' : 'auto'
+              }}
             >
-              {typedName}
-              {typedName.length < "Tanishq Somani".length && (
-                <span className="text-teal-400 animate-pulse">_</span>
-              )}
+              <span className="inline-block min-w-0">
+                {typedName || "\u00A0"}
+                {typedName.length < "Tanishq Somani".length && (
+                  <span className="text-teal-400 animate-pulse inline-block w-2">_</span>
+                )}
+              </span>
             </h1>
 
-            {/* Title with typing animation */}
+            {/* Title with typing animation - reserve space */}
             <div 
-              className={`mb-4 md:mb-6 ${
+              className={`mb-4 md:mb-6 min-h-[3em] ${
                 mounted ? "opacity-100" : "opacity-0"
               }`}
+              style={{ 
+                contain: 'layout style paint',
+                willChange: mounted ? 'opacity' : 'auto'
+              }}
             >
-              <p className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-3xl font-semibold text-white mb-3 md:mb-4 font-mono leading-tight break-words">
-                {typedTagline}
-                {typedTagline.length < "Software Engineer | Backend & AI Systems | Performance Optimization".length && (
-                  <span className="text-teal-400 animate-pulse">_</span>
-                )}
-                {typedTagline.length === "Software Engineer | Backend & AI Systems | Performance Optimization".length && (
-                  <span className={`text-teal-400 ${showCursor ? 'opacity-100' : 'opacity-0'}`}>_</span>
-                )}
+              <p className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-3xl font-semibold text-white mb-3 md:mb-4 font-mono leading-tight break-words min-h-[1.5em]">
+                <span className="inline-block min-w-0">
+                  {typedTagline || "\u00A0"}
+                  {typedTagline.length < "Software Engineer | Backend & AI Systems | Performance Optimization".length && (
+                    <span className="text-teal-400 animate-pulse inline-block w-2">_</span>
+                  )}
+                  {typedTagline.length === "Software Engineer | Backend & AI Systems | Performance Optimization".length && (
+                    <span className={`text-teal-400 inline-block w-2 ${showCursor ? 'opacity-100' : 'opacity-0'}`}>_</span>
+                  )}
+                </span>
               </p>
               <div className="flex flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm text-gray-400 font-mono">
                 <span className="px-2.5 sm:px-3 py-1 bg-white/5 border border-white/10 rounded">
@@ -166,18 +178,26 @@ export default function Hero() {
 
             {/* Description */}
             <p 
-              className={`text-sm sm:text-base md:text-lg text-gray-400 mb-5 sm:mb-6 md:mb-8 leading-relaxed transition-all duration-1000 delay-300 ${
-                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              className={`text-sm sm:text-base md:text-lg text-gray-400 mb-5 sm:mb-6 md:mb-8 leading-relaxed transition-opacity duration-1000 delay-300 ${
+                mounted ? "opacity-100" : "opacity-0"
               }`}
+              style={{ 
+                contain: 'layout style paint',
+                willChange: mounted ? 'opacity' : 'auto'
+              }}
             >
               Building scalable systems, optimizing performance, and solving complex problems at the intersection of software engineering and AI.
             </p>
 
             {/* CTA Buttons */}
             <div 
-              className={`flex flex-col sm:flex-row gap-3 sm:gap-4 transition-all duration-1000 delay-400 ${
-                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              className={`flex flex-col sm:flex-row gap-3 sm:gap-4 transition-opacity duration-1000 delay-400 min-h-[44px] ${
+                mounted ? "opacity-100" : "opacity-0"
               }`}
+              style={{ 
+                contain: 'layout style paint',
+                willChange: mounted ? 'opacity' : 'auto'
+              }}
             >
               <button
                 onClick={scrollToProjects}
@@ -198,9 +218,13 @@ export default function Hero() {
 
           {/* Right: Avatar */}
           <div 
-            className={`flex justify-center lg:justify-end transition-all duration-1000 delay-200 mt-6 lg:mt-0 ${
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            className={`flex justify-center lg:justify-end transition-opacity duration-1000 delay-200 mt-6 lg:mt-0 ${
+              mounted ? "opacity-100" : "opacity-0"
             }`}
+            style={{ 
+              contain: 'layout style paint',
+              willChange: mounted ? 'opacity' : 'auto'
+            }}
           >
             <div className="relative">
               {/* Glow effect */}

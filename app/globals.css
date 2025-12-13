@@ -41,6 +41,23 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Prevent layout shifts */
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+}
+
+/* Contain layout shifts */
+section {
+  contain: layout style;
+}
+
+/* Optimize font loading */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap;
+}
+
 /* Optimize animations */
 @media (prefers-reduced-motion: reduce) {
   *,

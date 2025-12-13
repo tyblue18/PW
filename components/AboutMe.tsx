@@ -40,9 +40,13 @@ export default function AboutMe() {
         </div>
         
         <div 
-          className={`bg-white/5 border border-white/10 rounded-lg p-6 sm:p-8 md:p-10 lg:p-12 transition-all duration-1000 delay-200 ${
-            mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          className={`bg-white/5 border border-white/10 rounded-lg p-6 sm:p-8 md:p-10 lg:p-12 transition-opacity duration-1000 delay-200 ${
+            mounted ? "opacity-100" : "opacity-0"
           }`}
+          style={{ 
+            contain: 'layout style paint',
+            willChange: mounted ? 'opacity' : 'auto'
+          }}
         >
           {/* Running Photo */}
           <div className="mb-8 flex justify-center">
