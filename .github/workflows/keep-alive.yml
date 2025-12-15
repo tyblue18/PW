@@ -10,8 +10,21 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Keep-Alive Endpoint
+      - name: Ping Streamlit Apps Directly
         run: |
-          curl -X GET "https://t-tanishqs.vercel.app/api/keep-alive" || true
-          echo "Keep-alive ping sent at $(date)"
+          echo "Pinging Streamlit apps to keep them awake..."
+          
+          # Ping AMP: Algorithmic Market Predictor
+          echo "Pinging AMP app..."
+          curl -s -o /dev/null -w "AMP Status: %{http_code}\n" \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
+            "https://tyblue18-automated-trading-app-9dse9i.streamlit.app" || echo "AMP ping failed"
+          
+          # Ping Password Security Enhancement System
+          echo "Pinging Password Security app..."
+          curl -s -o /dev/null -w "Password Security Status: %{http_code}\n" \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
+            "https://password-security-enhancements-okygcudyad9pxk3tpbryb6.streamlit.app" || echo "Password Security ping failed"
+          
+          echo "Keep-alive pings completed at $(date)"
 
