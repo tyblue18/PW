@@ -1,0 +1,17 @@
+name: Keep Streamlit Apps Alive
+
+on:
+  schedule:
+    # Run every 15 minutes to keep Streamlit apps awake
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # Allow manual trigger from GitHub Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Keep-Alive Endpoint
+        run: |
+          curl -X GET "https://t-tanishqs.vercel.app/api/keep-alive" || true
+          echo "Keep-alive ping sent at $(date)"
+
