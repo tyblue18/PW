@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getStreamlitUrls } from '@/config/streamlit-apps';
+import { getStreamlitUrls } from '../../../config/streamlit-apps';
 
 /**
  * Keep-alive endpoint that pings all Streamlit apps to prevent them from sleeping
@@ -81,6 +81,8 @@ async function pingStreamlitApp(
   timestamp: string;
 }> {
   const startTime = Date.now();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
   
   try {
     const response = await fetch(url, {
@@ -89,9 +91,10 @@ async function pingStreamlitApp(
         'User-Agent': 'Portfolio-KeepAlive/1.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
       },
-      // Set a timeout to prevent hanging
-      signal: AbortSignal.timeout(10000), // 10 second timeout
+      signal: controller.signal,
     });
+    
+    clearTimeout(timeoutId);
 
     const responseTime = Date.now() - startTime;
     const success = response.ok || response.status < 500;
@@ -106,6 +109,7 @@ async function pingStreamlitApp(
       timestamp: new Date().toISOString(),
     };
   } catch (error) {
+    clearTimeout(timeoutId);
     const responseTime = Date.now() - startTime;
     return {
       index,
