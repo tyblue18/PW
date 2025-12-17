@@ -2,9 +2,10 @@ name: Keep Streamlit Apps Alive
 
 on:
   schedule:
-    # Run every 5 minutes to keep Streamlit apps awake (very frequent)
-    # Streamlit Cloud free tier sleeps after ~30 min, so 5 min ensures they stay awake
-    - cron: '*/5 * * * *'
+    # Run every 10 minutes to keep Streamlit apps awake
+    # Note: GitHub Actions will charge $0.002/min starting Jan 2026
+    # Consider using free UptimeRobot instead for more frequent pings
+    - cron: '*/10 * * * *'
   workflow_dispatch: # Allow manual trigger from GitHub Actions tab
 
 jobs:
