@@ -63,7 +63,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden pt-16">
+    <section id="home" className="min-h-screen flex items-center justify-center px-4 relative overflow-visible pt-16">
       {/* Space background */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/20 to-black"></div>
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div>
@@ -85,15 +85,17 @@ export default function Hero() {
       
       {/* Terminal-like accent lines with animation */}
       <div 
-        className="absolute top-20 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/50 to-transparent z-10"
+        className="absolute top-20 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/50 to-transparent z-0 pointer-events-none"
         style={{
-          animation: "linePulse 3s ease-in-out infinite",
+          animation: "linePulse 3s ease-in-out infinite"
         }}
       ></div>
+      {/* Bottom line - positioned well below buttons to avoid overlap */}
       <div 
-        className="absolute bottom-20 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent z-10"
+        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent z-0 pointer-events-none"
         style={{
           animation: "linePulse 3s ease-in-out infinite 1.5s",
+          bottom: '10vh' // Position well below buttons
         }}
       ></div>
 
@@ -120,39 +122,42 @@ export default function Hero() {
         }
       `}</style>
       
-      <div className="max-w-6xl mx-auto relative z-10 px-4 sm:px-6 md:px-8 lg:px-8">
+      <div className="max-w-6xl mx-auto relative z-10 px-4 sm:px-6 md:px-8 lg:px-8 overflow-visible">
         <div className="grid lg:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
           {/* Left: Content */}
-          <div className="text-left">
+          <div className="text-left overflow-visible">
             {/* Name with typing - reserve space to prevent layout shift */}
             <h1 
-              className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-white via-teal-200 to-cyan-200 bg-clip-text text-transparent break-words min-h-[1.2em] ${
+              className={`text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-white via-teal-200 to-cyan-200 bg-clip-text text-transparent ${
                 mounted ? "opacity-100" : "opacity-0"
               }`}
               style={{ 
-                contain: 'layout style paint',
-                willChange: mounted ? 'opacity' : 'auto'
+                willChange: mounted ? 'opacity' : 'auto',
+                whiteSpace: 'nowrap',
+                overflow: 'visible',
+                display: 'inline-block',
+                minHeight: '1.2em',
+                height: '1.2em' // Fixed height to prevent shifting
               }}
             >
-              <span className="inline-block min-w-0">
-                {typedName || "\u00A0"}
-                {typedName.length < "Tanishq Somani".length && (
-                  <span className="text-teal-400 animate-pulse inline-block w-2">_</span>
-                )}
-              </span>
+              {typedName || "Tanishq Somani"}
+              {typedName.length < "Tanishq Somani".length && (
+                <span className="text-teal-400 animate-pulse inline-block w-2">_</span>
+              )}
             </h1>
 
             {/* Title with typing animation - reserve space */}
             <div 
-              className={`mb-4 md:mb-6 min-h-[3em] ${
+              className={`mb-4 md:mb-6 ${
                 mounted ? "opacity-100" : "opacity-0"
               }`}
               style={{ 
                 contain: 'layout style paint',
-                willChange: mounted ? 'opacity' : 'auto'
+                willChange: mounted ? 'opacity' : 'auto',
+                minHeight: '6em' // Increased to fit tagline + tags
               }}
             >
-              <p className="text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-3xl font-semibold text-white mb-3 md:mb-4 font-mono leading-tight break-words min-h-[1.5em]">
+              <p className="text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-white mb-3 md:mb-4 leading-tight break-words min-h-[1.5em]">
                 <span className="inline-block min-w-0">
                   {typedTagline || "\u00A0"}
                   {typedTagline.length < "Software Engineer | Backend & AI Systems | Performance Optimization".length && (
@@ -163,53 +168,56 @@ export default function Hero() {
                   )}
                 </span>
               </p>
-              <div className="flex flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm text-gray-400 font-mono">
-                <span className="px-2.5 sm:px-3 py-1 bg-white/5 border border-white/10 rounded">
+              <div className="flex flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm text-gray-300 font-mono mb-4">
+                <span className="px-2.5 sm:px-3 py-1 bg-teal-500/10 border border-teal-500/30 rounded text-teal-300">
                   Backend Systems
                 </span>
-                <span className="px-2.5 sm:px-3 py-1 bg-white/5 border border-white/10 rounded">
+                <span className="px-2.5 sm:px-3 py-1 bg-purple-500/10 border border-purple-500/30 rounded text-purple-300">
                   AI/ML
                 </span>
-                <span className="px-2.5 sm:px-3 py-1 bg-white/5 border border-white/10 rounded">
+                <span className="px-2.5 sm:px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 rounded text-cyan-300">
                   HPC
                 </span>
               </div>
             </div>
 
-            {/* Description */}
+            {/* Description - More impactful */}
             <p 
-              className={`text-sm sm:text-base md:text-lg text-gray-400 mb-5 sm:mb-6 md:mb-8 leading-relaxed transition-opacity duration-1000 delay-300 ${
+              className={`text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8 md:mb-10 leading-relaxed transition-opacity duration-1000 delay-300 font-medium ${
                 mounted ? "opacity-100" : "opacity-0"
               }`}
               style={{ 
                 contain: 'layout style paint',
-                willChange: mounted ? 'opacity' : 'auto'
+                willChange: mounted ? 'opacity' : 'auto',
+                minHeight: '3em' // Reserve space to prevent shifting
               }}
             >
               Building scalable systems, optimizing performance, and solving complex problems at the intersection of software engineering and AI.
             </p>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - More prominent */}
             <div 
-              className={`flex flex-col sm:flex-row gap-3 sm:gap-4 transition-opacity duration-1000 delay-400 min-h-[44px] ${
+              id="hero-buttons"
+              className={`flex flex-col sm:flex-row gap-4 sm:gap-5 transition-opacity duration-1000 delay-400 ${
                 mounted ? "opacity-100" : "opacity-0"
               }`}
               style={{ 
                 contain: 'layout style paint',
-                willChange: mounted ? 'opacity' : 'auto'
+                willChange: mounted ? 'opacity' : 'auto',
+                minHeight: '52px' // Reserve space for buttons
               }}
             >
               <button
                 onClick={scrollToProjects}
                 aria-label="Scroll to projects section"
-                className="px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold rounded border border-teal-500/50 hover:from-teal-500 hover:to-cyan-500 transition-all duration-300 shadow-lg hover:shadow-teal-500/20 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-black touch-manipulation min-h-[44px]"
+                className="px-8 sm:px-10 py-3.5 sm:py-4 text-base sm:text-lg bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-bold rounded-lg border-2 border-teal-500/50 hover:from-teal-500 hover:to-cyan-500 transition-all duration-300 shadow-xl hover:shadow-teal-500/30 hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-teal-500/50 focus:ring-offset-2 focus:ring-offset-black touch-manipulation min-h-[52px] flex items-center justify-center"
               >
                 View Projects →
               </button>
               <button
                 onClick={downloadResume}
                 aria-label="View resume PDF"
-                className="px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-white/5 backdrop-blur-sm text-white font-semibold rounded border border-white/20 hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-black touch-manipulation min-h-[44px]"
+                className="px-8 sm:px-10 py-3.5 sm:py-4 text-base sm:text-lg bg-white/10 backdrop-blur-sm text-white font-bold rounded-lg border-2 border-white/30 hover:bg-white/20 hover:border-teal-500/50 transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-teal-500/50 focus:ring-offset-2 focus:ring-offset-black touch-manipulation min-h-[52px] flex items-center justify-center"
               >
                 View Resume
               </button>

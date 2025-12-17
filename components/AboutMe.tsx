@@ -63,23 +63,79 @@ export default function AboutMe() {
           </div>
 
           <div className="prose prose-invert max-w-none">
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed mb-4 sm:mb-5 md:mb-6">
-              I&apos;m Tanishq, a software engineer with a background in microbiology. I now work as a Graduate Assistant specializing in programming and automation, building tools that streamline workflows and improve system efficiency. My path from life sciences into computer science gives me a unique perspective. I understand both the complexity of biological data and the engineering that&apos;s required to analyze, optimize, and build tools around it.
+            {/* Introduction */}
+            <p className="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed mb-6 font-medium">
+              I&apos;m <strong className="text-teal-400">Tanishq</strong>, a software engineer with a background in microbiology. I now work as a <strong className="text-teal-400">Graduate Assistant</strong> specializing in programming and automation, building tools that streamline workflows and improve system efficiency.
             </p>
             
-            <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-              During my transition into CS, I discovered a passion for computational problem-solving, especially in systems that blend data, performance, and AI. This led me to projects like a Particle Swarm Optimization (PSO) pipeline for MRI brain-tumor segmentation, where I combined my understanding of biological structures with algorithmic optimizations to achieve a 0.8130 average Dice score with zero false positives on healthy images. I&apos;ve also built machine learning systems for authorship detection, interactive web apps, and high-performance dashboards for analyzing HPC metrics.
-            </p>
+            {/* Key Achievements - Bullet Points */}
+            <div className="mb-6">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-3 flex items-center gap-2">
+                <span className="text-teal-400">→</span> Key Technical Achievements
+              </h3>
+              <ul className="space-y-3 text-base sm:text-lg text-gray-300 list-none">
+                <li className="flex items-start gap-3">
+                  <span className="text-teal-400 mt-1">•</span>
+                  <span>Built a <strong className="text-white">Particle Swarm Optimization (PSO) pipeline</strong> for MRI brain-tumor segmentation, achieving <strong className="text-teal-400">0.813 Dice score</strong> with <strong className="text-teal-400">zero false positives</strong> on 75,000+ scans</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-teal-400 mt-1">•</span>
+                  <span>Developed <strong className="text-white">machine learning systems</strong> for authorship detection and financial market prediction</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-teal-400 mt-1">•</span>
+                  <span>Created <strong className="text-white">high-performance dashboards</strong> for analyzing HPC metrics with 12 visualization types</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-teal-400 mt-1">•</span>
+                  <span>Built <strong className="text-white">AI-powered security analysis platforms</strong> combining rule-based checking with RAG-enhanced LLM explanations</span>
+                </li>
+              </ul>
+            </div>
             
-            <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-              My long-term goal is to sit at the intersection of biology and computing, whether that&apos;s medical imaging, computational biology, bio-AI, or building tools that make scientific workflows faster, more accurate, and more scalable.
-            </p>
+            {/* Unique Perspective */}
+            <div className="mb-6 p-4 bg-teal-500/5 border-l-4 border-teal-500/50 rounded-r-lg">
+              <p className="text-base sm:text-lg text-gray-200 leading-relaxed">
+                My path from <strong className="text-teal-400">life sciences into computer science</strong> gives me a unique perspective. I understand both the complexity of biological data and the engineering required to analyze, optimize, and build tools around it.
+              </p>
+            </div>
             
-            <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
-              Outside of engineering, my body is my ongoing experiment, a place where discipline meets curiosity. I&apos;ve spent five years weight training, shaping strength rep by rep, and I dream of coaching others someday. I&apos;ve run multiple marathons, with a fastest time of 3:53, and I&apos;m chasing two big goals: a Natural IFBB Pro card and a sub-3 marathon. The pursuit of those extremes constantly reminds me how remarkable the human body is, and how much potential we hold when we choose to push our limits.
-            </p>
+            {/* Long-term Goals */}
+            <div className="mb-6">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-3 flex items-center gap-2">
+                <span className="text-teal-400">→</span> Long-term Goals
+              </h3>
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
+                To sit at the intersection of <strong className="text-white">biology and computing</strong>, whether that&apos;s medical imaging, computational biology, bio-AI, or building tools that make scientific workflows faster, more accurate, and more scalable.
+              </p>
+            </div>
             
-            <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+            {/* Personal Interests */}
+            <div className="mb-6">
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-3 flex items-center gap-2">
+                <span className="text-teal-400">→</span> Outside Engineering
+              </h3>
+              <p className="text-base sm:text-lg text-gray-300 leading-relaxed mb-3">
+                My body is my ongoing experiment, where discipline meets curiosity:
+              </p>
+              <ul className="space-y-2 text-base sm:text-lg text-gray-300 list-none ml-4">
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-400 mt-1">🏋️</span>
+                  <span><strong className="text-white">5 years</strong> of weight training, pursuing a Natural IFBB Pro card</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-400 mt-1">🏃</span>
+                  <span><strong className="text-white">Marathon runner</strong> with a PR of <strong className="text-purple-400">3:53</strong>, chasing a sub-3 goal</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-purple-400 mt-1">🎯</span>
+                  <span>Dream of <strong className="text-white">coaching others</strong> and pushing human potential</span>
+                </li>
+              </ul>
+            </div>
+            
+            {/* Closing */}
+            <p className="text-base sm:text-lg text-gray-200 leading-relaxed font-medium">
               I&apos;m always looking for opportunities to build systems that matter, especially where biology and software intersect, and grow as a developer, problem-solver, and athlete.
             </p>
           </div>

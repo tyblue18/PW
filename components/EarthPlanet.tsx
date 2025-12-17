@@ -174,3 +174,6 @@ export default function EarthPlanet({ size = 200 }: { size?: number }) {
     </>
   );
 }
+
+
+

@@ -10,3 +10,6 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: 'https://t-tanishqs.vercel.app/sitemap.xml',
   };
 }
+
+
+

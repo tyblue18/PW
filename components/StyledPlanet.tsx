@@ -387,3 +387,6 @@ export default function StyledPlanet({ size = 200, style = "hand-drawn" }: Style
     </>
   );
 }
+
+
+

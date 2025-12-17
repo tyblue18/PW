@@ -47,7 +47,7 @@ export default function FeaturedProjects() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {projects.map((project, index) => {
             // Fixed random values per project
             const cardRotation = [-0.15, 0.18, -0.12, 0.2, -0.1][index % 5];
@@ -57,7 +57,8 @@ export default function FeaturedProjects() {
             return (
               <div
                 key={project.slug}
-                className={`group bg-white/5 border border-white/10 rounded-lg p-4 sm:p-6 hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/10 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] touch-manipulation ${
+                onClick={() => window.location.href = `/projects/${project.slug}`}
+                className={`group bg-white/5 border border-white/10 rounded-xl p-6 sm:p-8 hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-teal-500/20 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] touch-manipulation cursor-pointer ${
                   mounted ? "opacity-100" : "opacity-0"
                 }`}
                 style={{ 
@@ -68,47 +69,45 @@ export default function FeaturedProjects() {
                 }}
               >
                 {/* Project number */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-teal-400/50 font-mono text-xs" style={{
+                <div className="flex items-center justify-between mb-5">
+                  <span className="text-teal-400/60 font-mono text-sm font-bold" style={{
                     transform: `rotate(${numberRotation}deg)`,
                   }}>
                     {String(index + 1).padStart(2, '0')}.
                   </span>
-                  <div className="w-12 h-px bg-teal-500/30 group-hover:w-16 group-hover:bg-teal-500/50 transition-all" style={{
+                  <div className="w-16 h-px bg-teal-500/30 group-hover:w-20 group-hover:bg-teal-500/50 transition-all" style={{
                     transform: `translateY(${lineOffset}px)`,
                   }}></div>
                 </div>
               
-                <Link href={`/projects/${project.slug}`}>
-                  <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 text-white group-hover:text-teal-400 transition-colors cursor-pointer font-mono">
-                    {project.title}
-                  </h3>
-                </Link>
-                <p className="text-gray-400 mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base">
+                <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-white group-hover:text-teal-400 transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-gray-300 mb-4 sm:mb-5 leading-relaxed text-base sm:text-lg">
                   {project.description}
                 </p>
                 
-                <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                <div className="flex flex-wrap gap-2 sm:gap-2.5 mb-5 sm:mb-6">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 sm:px-2.5 py-0.5 sm:py-1 bg-black/30 text-teal-300 text-xs rounded border border-teal-500/20 font-mono"
+                      className="px-3 sm:px-3.5 py-1 sm:py-1.5 bg-teal-500/10 text-teal-300 text-xs sm:text-sm rounded-md border border-teal-500/30 font-medium hover:bg-teal-500/20 transition-colors pointer-events-none"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex gap-2 sm:gap-3 mt-4 sm:mt-6 flex-wrap">
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold rounded border border-teal-500/50 hover:from-teal-500 hover:to-cyan-500 transition-all duration-300 text-xs sm:text-sm active:scale-95 touch-manipulation"
-                  >
+                <div className="flex gap-3 sm:gap-4 mt-6 sm:mt-8 flex-wrap" onClick={(e) => e.stopPropagation()}>
+                  <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold rounded border border-teal-500/50 transition-all duration-300 text-xs sm:text-sm pointer-events-none">
                     View Details →
-                  </Link>
+                  </span>
                   {project.demo && project.demo === "#demo" && (
                     <button
-                      onClick={scrollToDemo}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        scrollToDemo();
+                      }}
                       className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300 text-xs sm:text-sm active:scale-95 touch-manipulation"
                     >
                       Live Demo
@@ -119,6 +118,7 @@ export default function FeaturedProjects() {
                       href={project.demo}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300 text-xs sm:text-sm active:scale-95 touch-manipulation"
                     >
                       Live Demo
@@ -127,6 +127,7 @@ export default function FeaturedProjects() {
                   {project.embeddedDemo && !project.demo && (
                     <Link
                       href={`/projects/${project.slug}#interactive-demo`}
+                      onClick={(e) => e.stopPropagation()}
                       className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300 text-xs sm:text-sm active:scale-95 touch-manipulation"
                     >
                       Live Demo
@@ -136,6 +137,7 @@ export default function FeaturedProjects() {
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-300 text-xs sm:text-sm active:scale-95 touch-manipulation"
                   >
                     GitHub
