@@ -2,29 +2,54 @@ name: Keep Streamlit Apps Alive
 
 on:
   schedule:
-    # Run every 15 minutes to keep Streamlit apps awake
-    - cron: '*/15 * * * *'
+    # Run every 5 minutes to keep Streamlit apps awake (very frequent)
+    # Streamlit Cloud free tier sleeps after ~30 min, so 5 min ensures they stay awake
+    - cron: '*/5 * * * *'
   workflow_dispatch: # Allow manual trigger from GitHub Actions tab
 
 jobs:
   ping:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Ping Streamlit Apps Directly
         run: |
-          echo "Pinging Streamlit apps to keep them awake..."
+          echo "=========================================="
+          echo "Keep-Alive Ping Started: $(date)"
+          echo "=========================================="
           
           # Ping AMP: Algorithmic Market Predictor
-          echo "Pinging AMP app..."
-          curl -s -o /dev/null -w "AMP Status: %{http_code}\n" \
-            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
-            "https://tyblue18-automated-trading-app-9dse9i.streamlit.app" || echo "AMP ping failed"
+          echo ""
+          echo "Pinging AMP: Algorithmic Market Predictor..."
+          AMP_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            --max-time 30 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
+            -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" \
+            "https://tyblue18-automated-trading-app-9dse9i.streamlit.app" 2>&1)
+          
+          if [ "$AMP_RESPONSE" = "200" ] || [ "$AMP_RESPONSE" = "302" ] || [ "$AMP_RESPONSE" = "301" ]; then
+            echo "✅ AMP Status: $AMP_RESPONSE (Success)"
+          else
+            echo "⚠️ AMP Status: $AMP_RESPONSE (May be sleeping or error)"
+          fi
           
           # Ping Password Security Enhancement System
-          echo "Pinging Password Security app..."
-          curl -s -o /dev/null -w "Password Security Status: %{http_code}\n" \
-            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" \
-            "https://password-security-enhancements-okygcudyad9pxk3tpbryb6.streamlit.app" || echo "Password Security ping failed"
+          echo ""
+          echo "Pinging Password Security Enhancement System..."
+          PSW_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            --max-time 30 \
+            -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" \
+            -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" \
+            "https://password-security-enhancements-okygcudyad9pxk3tpbryb6.streamlit.app" 2>&1)
           
-          echo "Keep-alive pings completed at $(date)"
+          if [ "$PSW_RESPONSE" = "200" ] || [ "$PSW_RESPONSE" = "302" ] || [ "$PSW_RESPONSE" = "301" ]; then
+            echo "✅ Password Security Status: $PSW_RESPONSE (Success)"
+          else
+            echo "⚠️ Password Security Status: $PSW_RESPONSE (May be sleeping or error)"
+          fi
+          
+          echo ""
+          echo "=========================================="
+          echo "Keep-Alive Ping Completed: $(date)"
+          echo "=========================================="
 
