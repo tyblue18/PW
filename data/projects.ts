@@ -11,13 +11,6 @@ export interface ProjectGraph {
   title?: string;
 }
 
-export interface PipelineStep {
-  step: number;
-  title: string;
-  description: string;
-  icon?: string;
-}
-
 export interface Metric {
   label: string;
   value: string;
@@ -48,7 +41,6 @@ export interface Project {
   // Additional fields for detail page
   images?: ProjectImage[];
   graphs?: ProjectGraph[];
-  pipeline?: PipelineStep[];
   metrics?: Metric[];
   technologies?: string[];
   challenges?: string[];

@@ -80,19 +80,27 @@ someone believe this person ships real things, fast, in under 30 seconds.
 | `components/EmbeddedProject.tsx` | Live iframe embeds |
 
 ### Tier 3 — ambient visuals (only if reworking the space motif)
-`components/Starfield.tsx`, `EarthPlanet.tsx`, `Moon.tsx`, `RevolvingPlanet.tsx`,
-`StyledPlanet.tsx`
+`components/Starfield.tsx` — a fixed full-viewport canvas behind the whole page.
+This is the only ambient visual left; four unused planet components were deleted.
 
-### Do NOT feed — dead code
-`components/themes/*` (9 hero variants), `components/UITheme.tsx`,
-`components/ThemeSwitcher.tsx`, `components/PipelineVisualization.tsx`,
-`components/IPNAgenda.tsx` + `app/ipn-agenda/`.
+### Do NOT feed
+`components/IPNAgenda.tsx` + `app/ipn-agenda/` + `app/api/ipn-agenda/` — a working
+route, but an unrelated internal tool that isn't part of the portfolio surface.
 
-The 9 theme heroes and the theme switcher are **not reachable** — nothing imports
-`ThemeProvider` or `ThemeSwitcher`, and `app/page.tsx` renders `<Hero />` directly.
-`PipelineVisualization` is unused (`Project.pipeline` is never rendered).
-`IPNAgenda` is an unrelated internal tool. Designing these is wasted effort; decide
-whether to revive or delete them first.
+Everything else in `components/` is live and in use. The repo previously carried 16
+unreachable files (9 alternate theme heroes, a theme provider and switcher, an
+unused pipeline visualiser, and 4 planet components); they have been deleted, so
+what remains is what actually renders.
+
+### Unused fields in the data model — design opportunities
+These exist on `Project` and hold real content, but **nothing renders them**:
+
+- `thumbnail` — an emoji per project (🏋️ 🩺 🦀 🏊 🧠 📈 📊 🔐 ⚽ 📅). Set on all ten.
+- `demoVideo` — a Google Drive walkthrough on the password-security project.
+- `graphs` — a supported `ProjectGraph[]` figure section, wired up but never populated.
+
+If a design wants per-project iconography or a video block, the content is already
+there and just needs a surface.
 
 ## Constraints
 
