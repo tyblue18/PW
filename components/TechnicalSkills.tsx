@@ -22,12 +22,12 @@ const skills = [
   // Row 2 - Specialized Skills
   {
     category: "Machine Learning & AI",
-    items: ["LangChain", "RAG", "LLMs", "scikit-learn"],
+    items: ["PyTorch", "MONAI", "LangChain", "RAG", "LLMs", "scikit-learn"],
     icon: "🧠",
   },
   {
     category: "Performance & Systems Eng.",
-    items: ["Caliper", "LLNL Thicket", "Performance Engineering", "PSO"],
+    items: ["Caliper", "LLNL Thicket", "Performance Engineering"],
     icon: "💻",
   },
   {

@@ -4,6 +4,11 @@
  */
 export const STREAMLIT_APPS = [
   {
+    name: "Lumen: BraTS 2020 Brain Tumour Segmentation",
+    url: "https://tyblue18-lumen.hf.space",
+    slug: "lumen-brain-tumor-segmentation",
+  },
+  {
     name: "AMP: Algorithmic Market Predictor",
     url: "https://tyblue18-automated-trading-app-9dse9i.streamlit.app",
     slug: "amp-algorithmic-market-predictor",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { getFeaturedProjects } from "@/data/projects";
 
@@ -75,11 +76,24 @@ export default function FeaturedProjects() {
                   }}>
                     {String(index + 1).padStart(2, '0')}.
                   </span>
-                  <div className="w-16 h-px bg-teal-500/30 group-hover:w-20 group-hover:bg-teal-500/50 transition-all" style={{
-                    transform: `translateY(${lineOffset}px)`,
-                  }}></div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-px bg-teal-500/30 group-hover:w-20 group-hover:bg-teal-500/50 transition-all" style={{
+                      transform: `translateY(${lineOffset}px)`,
+                    }}></div>
+                    {project.logo && (
+                      <div className="shrink-0 w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-white border border-white/20 relative">
+                        <Image
+                          src={project.logo}
+                          alt={`${project.title} logo`}
+                          fill
+                          className="object-contain p-1.5"
+                          sizes="48px"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              
+
                 <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-white group-hover:text-teal-400 transition-colors">
                   {project.title}
                 </h3>

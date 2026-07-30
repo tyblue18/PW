@@ -30,6 +30,8 @@ export interface Project {
   description: string;
   longDescription?: string;
   thumbnail: string;
+  /** Optional logo image (path in /public). Rendered on a light tile so dark marks stay readable. */
+  logo?: string;
   github: string;
   demo: string | null;
   demoVideo?: string | null; // Link to demo video (YouTube, Vimeo, or Google Drive)
@@ -56,77 +58,153 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    slug: "pso-mri-segmentation",
-    title: "PSO for MRI Tumor Segmentation",
-    description: "Built end-to-end PSO segmentation achieving 0.813 Dice score and 0 false positives on 75,000 axial brain MRI scans from the BraTS dataset.",
-    longDescription: "This project implements Particle Swarm Optimization (PSO) for automated brain tumor segmentation on MRI scans from the BraTS dataset. The algorithm optimizes segmentation parameters to achieve high accuracy while minimizing false positives. The system processes 75,000 axial brain MRI scans with robust performance metrics.",
-    thumbnail: "🧠",
-    github: "https://github.com/tyblue18/PSO",
-    demo: null,
-    paper: "/docs/pso-mri-segmentation-paper.pdf",
-    tags: ["Python", "PSO", "Computer Vision", "Medical Imaging"],
+    slug: "que-fitness-tracker",
+    title: "Que — Offline-First Training OS",
+    description: "A mobile-first, offline-first PWA for personal training, nutrition tracking, and friend-vs-friend fitness competition. Deployed on Vercel and in active use by real users.",
+    longDescription: "Que is a training OS built to consolidate workout logging, calorie tracking, and weight-management projections into one offline-first app that works at the gym, in the kitchen, and on the trail without depending on a network. localStorage is the authoritative source for the active session, so the app is fully functional with no connectivity; every edit stamps its day with an `_editedAt` timestamp and queues a debounced 4-second push to the server, where a per-day newer-wins merge makes multi-device usage safe and surfaces every conflict to the user instead of silently dropping an edit. Beyond logging, Que grew into a multi-device social platform: 1v1 and team/free-for-all battles wagering in-app coins settled idempotently inside Prisma transactions, friend groups with a Strava-style activity feed, a server-authoritative badge and coin economy evaluated post-response behind Redis locks, cardio-aware cut/bulk plan projections, and a Jack Daniels VDOT running-plan generator. Food search merges USDA FoodData Central with Open Food Facts, and a ZXing scanner with a native BarcodeDetector fallback handles packaged foods. The app ships full observability — Sentry tunnelled through a same-origin route, PostHog and Vercel Analytics behind one typed `trackEvent()` wrapper — plus web push and four scheduled cron jobs. The goal is a working personal trainer in your pocket without the noise of mainstream fitness apps: no ads, no upsells, no engagement-bait.",
+    thumbnail: "🏋️",
+    logo: "/projects/que/que-logo.png",
+    github: "https://github.com/tyblue18/Que",
+    demo: "https://que-tanishqs.vercel.app/",
+    tags: ["Next.js", "React", "TypeScript", "PostgreSQL", "Prisma", "PWA", "Offline-First"],
     featured: true,
-    technologies: ["Python", "NumPy", "SciPy", "OpenCV", "scikit-learn"],
+    technologies: [
+      "Next.js 15 (App Router)",
+      "React 19",
+      "TypeScript 5.7",
+      "Tailwind CSS v4",
+      "shadcn/ui + Radix",
+      "Prisma 5",
+      "PostgreSQL (Neon)",
+      "NextAuth 4",
+      "Upstash Redis",
+      "Vercel Blob",
+      "Service Workers / PWA",
+      "Web Push (VAPID)",
+      "Framer Motion",
+      "Recharts",
+      "Sentry",
+      "PostHog",
+      "Vitest"
+    ],
     challenges: [
-      "Optimizing PSO parameters for medical image segmentation",
-      "Handling large-scale BraTS dataset (75,000 axial brain MRI scans)",
-      "Reducing false positives while maintaining high Dice score"
+      "Replacing naive last-device-wins sync with per-day `_editedAt` newer-wins resolution, applied identically on the server POST and the client pull-merge, so a slower-syncing device can no longer clobber fresher edits",
+      "Keeping the badge and calorie-coin engine server-authoritative: full-history evaluation runs post-response in Next.js `after()` behind a 30s per-user Redis lock, with awards queued in Redis and hidden behind optimistic client popups",
+      "Making competitive settlement idempotent — pot transfers run in a Prisma `$transaction` using `updateMany` with a `status: 'active'` compare-and-set guard, so a cron retry or manual replay cannot double-pay",
+      "Designing a typed battle engine spanning 1v1 classic, 1v1 typed, team, and free-for-all modes, where every category is a pure `score(rows)` function over a day/3-day/week window",
+      "Merging and ranking a dual-source food search (USDA + Open Food Facts) with relevance scoring, de-duplication, macro plausibility checks, and a 24h Redis cache",
+      "Fixing the common PWA failure where a tab silently picks up new JS mid-session: the service worker never self-calls `skipWaiting()` and instead prompts the user to update",
+      "Deferring badge-image background removal with IntersectionObserver and an LRU cache so a 50-badge grid doesn't block the main thread on open"
     ],
     results: [
-      "Achieved 0.813 Dice score on validation set",
-      "Zero false positives on test dataset",
-      "Efficient processing pipeline for medical imaging workflows"
+      "Deployed on Vercel and in active use by a real user base, with usage tracked through an owner-only `/api/admin/stats` endpoint",
+      "Fully functional offline, with silent debounced background sync and every merge conflict surfaced to the user as a toast rather than dropped",
+      "60+ achievement badges plus a calorie-coin economy with append-only, fully auditable transactions",
+      "Competitive social layer: 1v1 typed battles, team/FFA group battles with live standings, friend groups, and an activity feed with likes and comments",
+      "Passive competition alongside opt-in battles — a \"vs. Last Week\" pace tracker and a global weekly leaderboard across steps, run distance, and lift volume",
+      "Zero-token invite loop — the invite code is the inviter's username, and redemption is idempotent, two-way, and coin-rewarded for both sides",
+      "Step tracking survived Google Fit's deprecation via a per-user bearer-token endpoint driven by an iOS Shortcut or Tasker, keeping Google sign-in on default scopes only",
+      "Full observability: Sentry tunnelled through a same-origin route so ad blockers can't drop events, per-tab error boundaries, and a typed event catalog dual-sent to PostHog and Vercel Analytics"
     ],
-    date: "2024",
-    // Project images - brain slices and segmentation results
-    images: [
-      {
-        src: "/projects/pso/comparison-input-otsu-pso.png",
-        alt: "Comparison of Input, Otsu segmentation, and PSO mask",
-        caption: "Three-panel comparison of segmentation methods on an axial brain MRI slice. Left panel shows the original T1-weighted input image with a hyperintense tumor in the upper left quadrant. Middle panel displays Otsu thresholding results (red overlay) which shows significant oversegmentation, covering large portions of healthy brain tissue including white matter. Right panel demonstrates PSO segmentation (blue overlay) with precise, localized tumor delineation and minimal spillover into healthy tissue, clearly outperforming the Otsu method."
-      },
-      {
-        src: "/projects/pso/pso-segmentation-overlay.png",
-        alt: "PSO Tumor Segmentation Overlay - Red mask visualization",
-        caption: "PSO tumor segmentation overlay displayed on an axial brain MRI slice. The red overlay masks precisely identify tumor regions, including the outer boundary following cerebral cortex contours and distinct internal tumor blobs. The segmentation accurately captures irregular, amoeboid-shaped tumor regions in the central brain area, demonstrating the algorithm's ability to handle complex tumor morphologies while maintaining accurate boundary delineation."
-      }
-    ],
-    // Pipeline flowchart visualization and results graphs
-    graphs: [
-      {
-        src: "/projects/pso/pso-pipeline-flowchart.png",
-        alt: "PSO Segmentation Pipeline Flowchart",
-        title: "PSO Segmentation Pipeline",
-        caption: "Complete end-to-end pipeline for PSO-based brain tumor segmentation. The flowchart illustrates six key stages: (1) Input Slice - loading 240x240px 8-bit grayscale FLAIR images via OpenCV, (2) Preprocess - Gaussian blur for noise reduction and Z-score normalization, (3) PSO Thresholding - 30-particle swarm optimization maximizing Dice coefficient over 40 iterations, (4) Raw PSO Mask - initial binary segmentation, (5) Post-Process - morphological operations to clean speckles and fill holes, (6) Final PSO Mask - cleaned segmentation ready for metric evaluation (Dice, IoU, Precision, Recall)."
-      },
-      {
-        src: "/projects/pso/dice_hist_tumour.png",
-        alt: "Dice Score Distribution Histogram for Tumor Segmentation",
-        title: "Dice Score Distribution",
-        caption: "Histogram showing Dice score distribution across 75,000 axial brain MRI slices. The distribution is heavily skewed towards higher Dice scores, with the majority of slices (36 out of 58 total) achieving Dice scores above 0.9. Peak performance occurs at the 0.9 bin with 21 slices, followed by 15 slices achieving perfect or near-perfect scores (1.0 bin). Only 8 slices fall below 0.7, demonstrating consistent high-quality segmentation across the entire dataset."
-      }
-    ],
-    // Key metrics
+    date: "2025 – Present",
     metrics: [
       {
-        label: "Dice Score",
-        value: "0.813",
-        description: "Average Dice coefficient on validation set"
+        label: "Prisma Models",
+        value: "17",
+        description: "Schema powering sync, badges, coins, battles, groups, and push"
       },
       {
-        label: "False Positives",
-        value: "0",
-        description: "Zero false positives across test dataset"
+        label: "Achievement Badges",
+        value: "60+",
+        description: "Lift, cardio, and nutrition badges — added without a migration"
       },
       {
-        label: "Images Processed",
-        value: "75,000",
-        description: "Total axial brain MRI scans processed"
+        label: "Sync Debounce",
+        value: "4s",
+        description: "Dirty days batched and pushed with newer-wins conflict resolution"
       },
       {
-        label: "Processing Time",
-        value: "~2.5s",
-        description: "Average time per image"
+        label: "Architecture",
+        value: "Offline-first",
+        description: "localStorage is the source of truth; Postgres syncs behind it"
+      }
+    ],
+    images: [
+      {
+        src: "/projects/que/que-social-tab.png",
+        alt: "Que's social tab showing the profile header, a vs-last-week pace tracker, the global weekly leaderboard, and a friend group with an activity feed",
+        caption: "The social tab in the deployed app. The profile header surfaces the badge count, day streak, and calorie-coin balance alongside a battle record. Below it, \"vs. Last Week\" compares this week's miles, lift volume, and protein against the same point in the previous week; the global weekly board ranks users by steps, run distance, or lift volume and resets on a fixed cadence; and Groups lists friend rosters with a Strava-style activity feed."
+      }
+    ],
+  },
+  {
+    slug: "lumen-brain-tumor-segmentation",
+    title: "Lumen — BraTS 2020 Brain Tumour Segmentation",
+    description: "3-D patch-based deep learning segmentation of glioma sub-regions using a MONAI U-Net trained on BraTS 2020 multi-modal MRI, producing whole-tumour, tumour-core, and enhancing-tumour masks.",
+    longDescription: "Lumen is an end-to-end deep learning pipeline for automated brain tumour segmentation on the BraTS 2020 dataset. It ingests the four standard MRI modalities for a patient — T1, T1ce, T2, and FLAIR — and runs a 3-D patch-based MONAI U-Net with sliding-window inference to produce three overlapping binary masks: whole tumour (WT), tumour core (TC), and enhancing tumour (ET). The project ships a complete training, evaluation, and prediction toolchain configured through reproducible YAML files, a single-case inference module, and a Streamlit demo deployed on Hugging Face Spaces. The demo lets you upload a patient's four modalities (plus an optional ground-truth segmentation for side-by-side comparison), scrub through axial slices, view colour-coded overlays, inspect per-region tumour volumes computed from the NIfTI voxel spacing, and download the predicted segmentation as a NIfTI file.",
+    thumbnail: "🧠",
+    github: "https://github.com/tyblue18/Lumen",
+    demo: "https://huggingface.co/spaces/Tyblue18/Lumen",
+    embeddedDemo: {
+      type: "iframe",
+      src: "https://tyblue18-lumen.hf.space",
+      height: "800px"
+    },
+    tags: ["Python", "PyTorch", "MONAI", "Deep Learning", "Computer Vision", "Medical Imaging"],
+    featured: true,
+    technologies: [
+      "Python",
+      "PyTorch",
+      "MONAI",
+      "3D U-Net",
+      "NiBabel",
+      "NumPy",
+      "Streamlit",
+      "Hugging Face Spaces",
+      "CUDA"
+    ],
+    challenges: [
+      "Designing a 3-D patch-based pipeline with sliding-window inference to segment full multi-modal MRI volumes within GPU memory limits",
+      "Co-registering and normalising four MRI modalities (T1, T1ce, T2, FLAIR) into a single model input",
+      "Predicting three overlapping tumour sub-regions (WT, TC, ET) rather than mutually exclusive classes",
+      "Hosting a ~154 MB model checkpoint off the main repo via the Hugging Face Hub to stay within file-size limits",
+      "Building an interactive Streamlit demo with slice scrubbing, ground-truth comparison, and voxel-accurate volume reporting"
+    ],
+    results: [
+      "Full training, evaluation, and single-case prediction CLI driven by reproducible YAML configs",
+      "Segments all three BraTS sub-regions (WT, TC, ET) from a patient's four MRI modalities",
+      "Interactive Hugging Face Spaces demo with axial-slice scrubbing and colour-coded overlays (green = WT, blue = TC, red = ET)",
+      "Per-region tumour volume table (voxel counts and mm³/cm³) computed from the NIfTI voxel spacing",
+      "Downloadable NIfTI segmentation output; ~30–60 s inference on an RTX-class GPU"
+    ],
+    date: "2025",
+    metrics: [
+      {
+        label: "Input Modalities",
+        value: "4",
+        description: "T1, T1ce, T2, and FLAIR MRI scans per patient"
+      },
+      {
+        label: "Tumour Sub-regions",
+        value: "3",
+        description: "Whole tumour, tumour core, and enhancing tumour"
+      },
+      {
+        label: "GPU Inference",
+        value: "~30–60s",
+        description: "Per-patient inference on an RTX-class GPU"
+      },
+      {
+        label: "Architecture",
+        value: "3D U-Net",
+        description: "MONAI patch-based sliding-window model"
+      }
+    ],
+    images: [
+      {
+        src: "/projects/lumen/Lumen_screenshot.png",
+        alt: "Lumen segmentation: FLAIR input, ground truth, and model prediction on an axial brain MRI slice",
+        caption: "Three-panel comparison from the Lumen demo on axial slice 73/154. Left: the FLAIR input showing a hyperintense glioma. Middle: the expert ground-truth segmentation. Right: Lumen's predicted segmentation, closely matching the reference. Colour coding: green = whole tumour (WT), blue = tumour core (TC), red = enhancing tumour (ET)."
       }
     ],
   },

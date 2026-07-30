@@ -76,7 +76,7 @@ export default function AboutMe() {
               <ul className="space-y-3 text-base sm:text-lg text-gray-300 list-none">
                 <li className="flex items-start gap-3">
                   <span className="text-teal-400 mt-1">•</span>
-                  <span>Built a <strong className="text-white">Particle Swarm Optimization (PSO) pipeline</strong> for MRI brain-tumor segmentation, achieving <strong className="text-teal-400">0.813 Dice score</strong> with <strong className="text-teal-400">zero false positives</strong> on 75,000+ scans</span>
+                  <span>Built <strong className="text-white">Lumen</strong>, a 3-D deep learning pipeline (<strong className="text-teal-400">MONAI U-Net</strong>) for <strong className="text-white">BraTS 2020 brain-tumour segmentation</strong>, predicting whole-tumour, tumour-core, and enhancing-tumour regions from multi-modal MRI</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-teal-400 mt-1">•</span>

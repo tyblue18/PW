@@ -1,6 +1,7 @@
 "use client";
 
 import { Project } from "@/data/projects";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import ImageGallery from "./ImageGallery";
 import GraphsSection from "./GraphsSection";
@@ -83,9 +84,23 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         }`}
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
-          {project.title}
-        </h1>
+        <div className="flex items-center gap-5 mb-4">
+          {project.logo && (
+            <div className="shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-white border border-white/20 p-2 relative shadow-lg shadow-teal-500/10">
+              <Image
+                src={project.logo}
+                alt={`${project.title} logo`}
+                fill
+                className="object-contain p-2"
+                sizes="80px"
+                priority
+              />
+            </div>
+          )}
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+            {project.title}
+          </h1>
+        </div>
         <p className="text-xl text-gray-300 mb-6">{project.description}</p>
 
         {/* Tags */}
