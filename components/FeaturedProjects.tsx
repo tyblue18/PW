@@ -1,26 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getFeaturedProjects } from "@/data/projects";
+import { useInView } from "@/hooks/useInView";
 
 export default function FeaturedProjects() {
-  const [mounted, setMounted] = useState(false);
+  const { ref, inView } = useInView<HTMLElement>();
   const router = useRouter();
   const projects = getFeaturedProjects();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const scrollToDemo = () => {
     document.getElementById("demo")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section id="projects" className="py-24 px-4 bg-gradient-to-b from-black via-purple-950/10 to-black relative">
+    <section ref={ref} id="projects" className="py-24 px-4 bg-gradient-to-b from-black/75 via-purple-950/20 to-black/75 relative">
       {/* Space background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div>
       {/* Animated Nebula effect */}
@@ -38,7 +35,7 @@ export default function FeaturedProjects() {
             <span className="text-teal-400 font-mono text-xs sm:text-sm">03.</span>
             <h2 
               className={`text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
-                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
               Featured Projects
@@ -58,19 +55,25 @@ export default function FeaturedProjects() {
             const lineOffset = [-0.3, 0.4, -0.2, 0.5, -0.4][index % 5];
             
             return (
+              /* Outer holds the reveal + the hand-placed rotation; the card inside keeps
+                 its own transform free so the hover lift actually applies. */
               <div
                 key={project.slug}
-                onClick={() => router.push(`/projects/${project.slug}`)}
-                className={`group bg-white/5 border border-white/10 rounded-xl p-6 sm:p-8 hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-teal-500/20 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] touch-manipulation cursor-pointer ${
-                  mounted ? "opacity-100" : "opacity-0"
-                }`}
-                style={{ 
-                  contain: 'layout style paint',
-                  willChange: 'transform, opacity',
-                  transitionDelay: `${index * 50}ms`,
-                  transform: `rotate(${cardRotation}deg)`,
+                className="transition-all duration-700 ease-out motion-reduce:transition-none"
+                style={{
+                  transitionDelay: `${index * 70}ms`,
+                  opacity: inView ? 1 : 0,
+                  transform: inView
+                    ? `rotate(${cardRotation}deg) translateY(0)`
+                    : `rotate(${cardRotation}deg) translateY(20px)`,
+                  willChange: inView ? 'auto' : 'transform, opacity',
                 }}
               >
+                <div
+                  onClick={() => router.push(`/projects/${project.slug}`)}
+                  className="group h-full bg-white/5 border border-white/10 rounded-xl p-6 sm:p-8 backdrop-blur-sm hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-teal-500/20 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] touch-manipulation cursor-pointer"
+                  style={{ contain: 'layout style paint' }}
+                >
                 {/* Project number */}
                 <div className="flex items-center justify-between mb-5">
                   <span className="text-teal-400/60 font-mono text-sm font-bold" style={{
@@ -161,6 +164,7 @@ export default function FeaturedProjects() {
                   >
                     GitHub
                   </a>
+                </div>
                 </div>
               </div>
             );

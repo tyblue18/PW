@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+
+import { useInView } from "@/hooks/useInView";
 
 const socialLinks = [
   {
@@ -21,14 +22,10 @@ const socialLinks = [
 ];
 
 export default function Contact() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { ref, inView } = useInView<HTMLElement>();
 
   return (
-    <section id="contact" className="py-24 px-4 bg-gradient-to-b from-black via-purple-950/10 to-black relative">
+    <section ref={ref} id="contact" className="py-24 px-4 bg-gradient-to-b from-black/75 via-purple-950/20 to-black/75 relative">
       {/* Space background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div>
       {/* Animated Nebula effect */}
@@ -46,7 +43,7 @@ export default function Contact() {
             <span className="text-teal-400 font-mono text-xs sm:text-sm">05.</span>
             <h2 
               className={`text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
-                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
               Get In Touch
@@ -60,11 +57,11 @@ export default function Contact() {
 
         <div 
           className={`flex flex-wrap justify-center gap-3 sm:gap-4 transition-opacity duration-1000 delay-200 ${
-            mounted ? "opacity-100" : "opacity-0"
+            inView ? "opacity-100" : "opacity-0"
           }`}
           style={{ 
             contain: 'layout style paint',
-            willChange: mounted ? 'opacity' : 'auto'
+            willChange: inView ? 'opacity' : 'auto'
           }}
         >
           {socialLinks.map((link) => (

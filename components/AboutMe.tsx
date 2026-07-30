@@ -1,19 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+
 import Image from "next/image";
+import { useInView } from "@/hooks/useInView";
 
 export default function AboutMe() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { ref, inView } = useInView<HTMLElement>();
 
   return (
-    <section id="about" className="py-24 px-4 bg-black relative">
-      {/* Space background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/10 to-black"></div>
+    <section ref={ref} id="about" className="py-24 px-4 relative">
+      {/* Space background — kept translucent so the starfield reads through */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-purple-950/20 to-black/75"></div>
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div>
       {/* Animated Nebula effect */}
       <div 
@@ -30,7 +27,7 @@ export default function AboutMe() {
             <span className="text-teal-400 font-mono text-xs sm:text-sm">04.</span>
             <h2 
               className={`text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
-                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
               About Me
@@ -41,11 +38,11 @@ export default function AboutMe() {
         
         <div 
           className={`bg-white/5 border border-white/10 rounded-lg p-6 sm:p-8 md:p-10 lg:p-12 transition-opacity duration-1000 delay-200 ${
-            mounted ? "opacity-100" : "opacity-0"
+            inView ? "opacity-100" : "opacity-0"
           }`}
           style={{ 
             contain: 'layout style paint',
-            willChange: mounted ? 'opacity' : 'auto'
+            willChange: inView ? 'opacity' : 'auto'
           }}
         >
           {/* Running Photo */}

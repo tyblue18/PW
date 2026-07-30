@@ -75,7 +75,7 @@ export default function Hero() {
   return (
     <section id="home" className="min-h-screen flex items-center justify-center px-4 relative overflow-visible pt-16">
       {/* Space background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/20 to-black"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-purple-950/25 to-black/70"></div>
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div>
       <div className="absolute inset-0 bg-gradient-to-br from-teal-900/10 via-purple-900/10 to-cyan-900/10"></div>
       

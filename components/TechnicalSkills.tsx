@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+
+import { useInView } from "@/hooks/useInView";
 
 const skills = [
   // Row 1 - Core
@@ -65,16 +66,12 @@ const skills = [
 ];
 
 export default function TechnicalSkills() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { ref, inView } = useInView<HTMLElement>();
 
   return (
-    <section id="skills" className="py-24 px-4 bg-black relative">
-      {/* Space background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-purple-950/10 to-black"></div>
+    <section ref={ref} id="skills" className="py-24 px-4 relative">
+      {/* Space background — kept translucent so the starfield reads through */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-purple-950/20 to-black/75"></div>
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30"></div>
       {/* Animated Nebula effect */}
       <div 
@@ -91,7 +88,7 @@ export default function TechnicalSkills() {
             <span className="text-teal-400 font-mono text-xs sm:text-sm">02.</span>
             <h2 
               className={`text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
-                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
               Technical Stack
@@ -111,18 +108,24 @@ export default function TechnicalSkills() {
             const lineOffset = [-0.5, 0.3, -0.8, 0.6, -0.4, 0.7, -0.6, 0.4, -0.3][index % 9];
             
             return (
+              /* Outer holds the reveal + the hand-placed rotation; the card inside keeps
+                 its own transform free so the hover lift actually applies. */
               <div
                 key={skill.category}
-                className={`group bg-white/5 border border-white/10 rounded-lg p-4 sm:p-6 hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/10 hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] touch-manipulation ${
-                  mounted ? "opacity-100" : "opacity-0"
-                }`}
-                style={{ 
-                  contain: 'layout style paint',
-                  willChange: 'transform, opacity',
-                  transitionDelay: `${index * 50}ms`,
-                  transform: `rotate(${cardRotation}deg)`,
+                className="transition-all duration-700 ease-out motion-reduce:transition-none"
+                style={{
+                  transitionDelay: `${index * 45}ms`,
+                  opacity: inView ? 1 : 0,
+                  transform: inView
+                    ? `rotate(${cardRotation}deg) translateY(0)`
+                    : `rotate(${cardRotation}deg) translateY(16px)`,
+                  willChange: inView ? 'auto' : 'transform, opacity',
                 }}
               >
+                <div
+                  className="group h-full bg-white/5 border border-white/10 rounded-lg p-4 sm:p-6 backdrop-blur-sm hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/10 hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] touch-manipulation"
+                  style={{ contain: 'layout style paint' }}
+                >
                 {/* Header */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="text-2xl" style={{ transform: `rotate(${iconRotation}deg)` }}>{skill.icon}</div>
@@ -158,6 +161,7 @@ export default function TechnicalSkills() {
                       </div>
                     );
                   })}
+                </div>
                 </div>
               </div>
             );
