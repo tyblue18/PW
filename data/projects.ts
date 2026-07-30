@@ -281,6 +281,77 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "ironman-training-tracker",
+    title: "Ironman Training Tracker — Garmin Data, Corrected",
+    description: "Syncs Garmin Connect into a local SQLite database and rebuilds the training metrics that matter for Ironman — fitness/fatigue/form, intensity distribution, HRV, and sleep — with sensor-error correction and an evidence base cited at the point of definition.",
+    longDescription: "I built this because the metrics my watch reports are quietly wrong in ways that compound over a training block. The headline problem is optical heart rate: wrist sensors fail during running by locking onto the motion artefact from foot strike and reporting cadence as heart rate. It doesn't look like an error — it looks like a plausible 170 bpm — so every downstream metric absorbs it silently and an easy run gets filed as a hard one. The tracker runs two checks on every run: whether HR is sitting on top of cadence, and whether HR and running power disagree about how hard the session was. The second is the one that convicts, because power is derived from pace and motion rather than from the optical sensor. Runs that fail get scored from power zones instead and are dropped from run-efficiency trends entirely, because metres per heartbeat means nothing if the heartbeat is cadence. Above both sensors sits a manual override: the talk test, a validated field surrogate for the first ventilatory threshold. Tagging a session easy/moderate/hard overrides both sensors — it's the one intensity signal no hardware can corrupt, and it needs no chest strap. Everything else follows the same principle of not overclaiming. Fitness and fatigue are carried forward through rest days and computed as of today, so a layoff shows as the decline it actually is instead of freezing at the last workout, and the first 42 days are labelled model warm-up rather than passed off as fitness gains. Sleep duration is judged against a personal rolling baseline (which cancels the roughly constant ~40 min/night overestimate wrist wearables carry against polysomnography), while deep/REM splits are charted but never scored, because stage detection is the least accurate output a wrist device produces. Every metric that implements something specific from the literature says so at its point of definition, and the ones that are coaching convention rather than a finding are labelled as such in the code.",
+    thumbnail: "🏊",
+    github: "https://github.com/tyblue18/DataTracker",
+    demo: "https://data-tracker-beta.vercel.app/",
+    embeddedDemo: {
+      type: "iframe",
+      src: "https://data-tracker-beta.vercel.app/",
+      height: "900px"
+    },
+    tags: ["Python", "Data Engineering", "SQLite", "Streamlit", "Sports Science", "Pandas"],
+    featured: true,
+    technologies: [
+      "Python 3.12",
+      "garminconnect",
+      "SQLite",
+      "pandas",
+      "Streamlit",
+      "FastAPI",
+      "uvicorn",
+      "Vercel Cron",
+      "pytest",
+      "ruff",
+      "Hand-built SVG charts"
+    ],
+    challenges: [
+      "Detecting optical-HR cadence lock, where the wrist sensor reports foot-strike cadence as heart rate — it produces a plausible-looking number rather than an obvious error, so it has to be caught by cross-checking HR against running power, which is derived from motion rather than from the optical sensor",
+      "Deciding what a corrupted session should do downstream: rescore from power zones, but drop it from run-efficiency trends entirely, since metres per heartbeat is meaningless when the heartbeat is cadence",
+      "Building a manual override that outranks both sensors — the talk test as a validated surrogate for the first ventilatory threshold, where a tag changes only the session's placement in the zones and preserves its measured duration",
+      "Carrying fitness and fatigue forward through rest days and computing them as of today, so a training layoff registers as decline instead of freezing at the last recorded workout",
+      "Designing a composite Progression Score that can't be gamed: pillars score trends against your own baseline, an uncomputable pillar renders as an em-dash rather than a guess, and no pillar collapses onto a single input — so 'recovery is strong' can't be produced by simply not training",
+      "Parsing an unofficial, shape-shifting Garmin API defensively while retaining the full raw JSON, so a later `backfill` can replay history into new columns without ever re-hitting the network",
+      "Working around Streamlit's need for a long-lived websocket server, which Vercel can't host — the deployed page is server-rendered and read-only, while the local Streamlit app remains the tool for tagging sessions"
+    ],
+    results: [
+      "A local-first pipeline: Garmin Connect to SQLite with idempotent upserts, cached OAuth tokens with MFA, and safe re-syncing of overlapping date ranges",
+      "Training load modelled as CTL/ATL/TSB (Banister impulse-response) with an explicitly labelled 42-day model warm-up period",
+      "Intensity distribution measured from per-activity time-in-zone and compared against the polarised (~80/5/15) and pyramidal (~78/19/3) models, with an inverted split flagged",
+      "HRV evaluated as a 7-day rolling mean of ln(HRV) against a 60-day baseline at ±0.5 SD — the smallest worthwhile change — rather than as a noisy daily number",
+      "Deliberately excluded the acute:chronic workload ratio, the most common load metric in training apps, because it is mathematically coupled to its own numerator (Impellizzeri 2020) — with the reasoning documented beside `ramp_rate()` so it doesn't get re-added later",
+      "An evidence table that grades its own confidence, separating established models from coaching convention instead of presenting both as findings",
+      "Deployed as a private server-rendered dashboard on Vercel with a twice-daily sync cron; all data stays local otherwise, and nothing leaves the machine except the Garmin login",
+      "pytest suite over the metrics layer, with CI"
+    ],
+    date: "2026",
+    metrics: [
+      {
+        label: "HR Integrity Checks",
+        value: "2",
+        description: "Cadence-lock detection plus an HR-versus-power disagreement test"
+      },
+      {
+        label: "Progression Score",
+        value: "5 pillars",
+        description: "Fitness, Efficiency, Recovery, Consistency, and Intensity"
+      },
+      {
+        label: "Load Model",
+        value: "CTL/ATL/TSB",
+        description: "Banister impulse-response, carried through rest days"
+      },
+      {
+        label: "Data Residency",
+        value: "100% local",
+        description: "Nothing leaves the machine except the Garmin login"
+      }
+    ],
+  },
+  {
     slug: "lumen-brain-tumor-segmentation",
     title: "Lumen — BraTS 2020 Brain Tumour Segmentation",
     description: "3-D patch-based deep learning segmentation of glioma sub-regions using a MONAI U-Net trained on BraTS 2020 multi-modal MRI, producing whole-tumour, tumour-core, and enhancing-tumour masks.",
