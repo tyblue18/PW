@@ -10,13 +10,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Tanishq Somani | Software Engineer & AI Systems",
-  description: "Software Engineer specializing in Backend & AI Systems, Performance Optimization, and HPC. Portfolio showcasing projects in machine learning, computer vision, and high-performance computing.",
-  keywords: ["Software Engineer", "AI Systems", "Backend Development", "Performance Optimization", "Machine Learning", "HPC", "Computer Vision"],
+  title: "Tanishq Somani | Full-Stack Engineer",
+  description: "Full-stack engineer who ships real products end to end — a live consumer app with real users, a clinical NLP pipeline improved from 53% to 86% accuracy, and an open-source fix to uv in Rust. Portfolio of production systems, AI/LLM engineering, and machine learning.",
+  keywords: ["Full-Stack Engineer", "Software Engineer", "TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "Python", "Rust", "AI Systems", "LLM Engineering", "RAG", "Machine Learning"],
   authors: [{ name: "Tanishq Somani" }],
   openGraph: {
-    title: "Tanishq Somani | Software Engineer & AI Systems",
-    description: "Software Engineer specializing in Backend & AI Systems, Performance Optimization, and HPC.",
+    title: "Tanishq Somani | Full-Stack Engineer",
+    description: "Full-stack engineer who ships real products end to end — live consumer apps, clinical AI pipelines, and open-source contributions.",
     type: "website",
     locale: "en_US",
     url: "https://t-tanishqs.vercel.app",
@@ -24,8 +24,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tanishq Somani | Software Engineer & AI Systems",
-    description: "Software Engineer specializing in Backend & AI Systems, Performance Optimization, and HPC.",
+    title: "Tanishq Somani | Full-Stack Engineer",
+    description: "Full-stack engineer who ships real products end to end — live consumer apps, clinical AI pipelines, and open-source contributions.",
   },
   robots: {
     index: true,

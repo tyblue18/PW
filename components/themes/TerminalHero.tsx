@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { PROFILE } from "@/data/profile";
 
 export default function TerminalHero() {
   const [mounted, setMounted] = useState(false);
@@ -9,7 +10,7 @@ export default function TerminalHero() {
 
   useEffect(() => {
     setMounted(true);
-    const text = "Software Engineer | Backend & AI Systems | Performance Optimization";
+    const text = PROFILE.tagline;
     let index = 0;
     const interval = setInterval(() => {
       if (index < text.length) {

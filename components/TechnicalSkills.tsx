@@ -3,53 +3,64 @@
 import { useEffect, useState } from "react";
 
 const skills = [
-  // Row 1 - Top Priority
+  // Row 1 - Core
   {
-    category: "Core Languages & Platforms",
-    items: ["Python", "C++", "C#", "Bash", "Git"],
-    icon: "🐍",
+    category: "Languages",
+    items: ["Python", "TypeScript", "JavaScript", "SQL", "Rust", "Java", "C++"],
+    icon: "⌨️",
   },
   {
-    category: "Web & Backend Development",
-    items: ["FastAPI", "Dash", "REST APIs", "OpenRouter API"],
+    category: "Frontend",
+    items: ["React", "Next.js", "React Native", "Tailwind CSS", "shadcn/ui"],
+    icon: "🎨",
+  },
+  {
+    category: "Backend & APIs",
+    items: ["Node.js", "FastAPI", "REST APIs", "Webhooks", "Cron & Background Jobs"],
     icon: "🌐",
   },
+  // Row 2 - Data & AI
   {
-    category: "Data Visualization & Analysis",
-    items: ["Plotly", "Pandas", "NumPy", "Streamlit", "SciPy"],
-    icon: "📊",
-  },
-  // Row 2 - Specialized Skills
-  {
-    category: "Machine Learning & AI",
-    items: ["PyTorch", "MONAI", "LangChain", "RAG", "LLMs", "scikit-learn"],
-    icon: "🧠",
-  },
-  {
-    category: "Performance & Systems Eng.",
-    items: ["Caliper", "LLNL Thicket", "Performance Engineering"],
-    icon: "💻",
-  },
-  {
-    category: "Data & Vector Databases",
-    items: ["ChromaDB", "HuggingFace Embeddings", "Vector Stores"],
+    category: "Data & Storage",
+    items: ["PostgreSQL", "Redis", "Prisma", "Data Pipelines", "Vector Stores"],
     icon: "🗄️",
   },
-  // Row 3 - Secondary/Supporting
   {
-    category: "Build/Ops & Infrastructure",
-    items: ["CMake", "Shell Scripts"],
+    category: "AI & LLM Engineering",
+    items: ["LLM APIs (OpenAI, Anthropic, Gemini)", "Agentic Pipelines", "RAG & Hybrid Retrieval (RRF)", "Evaluation Harness Design", "Confidence Calibration", "Claude Code"],
+    icon: "🤖",
+  },
+  {
+    category: "Machine Learning",
+    items: ["PyTorch", "MONAI", "LangChain", "scikit-learn", "HuggingFace Embeddings"],
+    icon: "🧠",
+  },
+  // Row 3 - Ops & specialized
+  {
+    category: "Infrastructure & DevOps",
+    items: ["Docker", "CI/CD", "Git", "Linux", "Vercel"],
     icon: "⚙️",
+  },
+  {
+    category: "Testing & Observability",
+    items: ["Unit & Integration Testing", "Vitest", "Sentry", "Event Telemetry"],
+    icon: "🔭",
+  },
+  {
+    category: "Data Visualization",
+    items: ["Plotly", "Dash", "Recharts", "Pandas", "NumPy", "Streamlit"],
+    icon: "📊",
+  },
+  // Row 4 - Domain-specific
+  {
+    category: "Performance & Systems Eng.",
+    items: ["Caliper", "LLNL Thicket", "CMake", "Bash", "Performance Engineering"],
+    icon: "💻",
   },
   {
     category: "Game Development",
     items: ["Unity", "C#", "WebGL"],
     icon: "🎮",
-  },
-  {
-    category: "Computer Vision",
-    items: ["OpenCV", "Image Processing"],
-    icon: "👁️",
   },
 ];
 

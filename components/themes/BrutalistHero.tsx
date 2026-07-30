@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { PROFILE } from "@/data/profile";
 
 export default function BrutalistHero() {
   const [mounted, setMounted] = useState(false);
@@ -74,7 +75,7 @@ export default function BrutalistHero() {
           }`}
         >
           <div className="inline-block bg-black text-yellow-400 px-6 py-2 font-bold text-xl md:text-2xl border-4 border-black">
-            SOFTWARE ENGINEER
+            {PROFILE.role.toUpperCase()}
           </div>
         </div>
 
@@ -84,7 +85,7 @@ export default function BrutalistHero() {
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          Building scalable systems, optimizing performance, and solving complex problems at the intersection of software engineering and AI.
+          {PROFILE.summary}
         </p>
 
         {/* CTA Buttons */}

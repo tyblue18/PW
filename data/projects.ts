@@ -132,8 +132,151 @@ export const projects: Project[] = [
     images: [
       {
         src: "/projects/que/que-social-tab.png",
-        alt: "Que's social tab showing the profile header, a vs-last-week pace tracker, the global weekly leaderboard, and a friend group with an activity feed",
-        caption: "The social tab in the deployed app. The profile header surfaces the badge count, day streak, and calorie-coin balance alongside a battle record. Below it, \"vs. Last Week\" compares this week's miles, lift volume, and protein against the same point in the previous week; the global weekly board ranks users by steps, run distance, or lift volume and resets on a fixed cadence; and Groups lists friend rosters with a Strava-style activity feed."
+        alt: "Que's social tab showing the profile header with streak and coin balance, an eight-slot gym badge showcase, the full 25-badge collection, and the start of the vs-last-week pace tracker",
+        caption: "The social tab in the deployed app. The profile header surfaces the badge count, day streak, weekly weight change, and calorie-coin balance alongside a win–loss–tie battle record. Below it sits the drag-and-drop badge showcase — eight user-chosen slots above the full earned collection — where every badge image has had its background removed client-side, cached in an LRU, and deferred behind an IntersectionObserver so the grid doesn't block the main thread. At the bottom, \"vs. Last Week\" compares this week's miles, lift volume, and protein against the same point in the previous week."
+      }
+    ],
+  },
+  {
+    slug: "dxmap-clinical-coding",
+    title: "DxMap — Clinical Note → ICD-10-CM & CPT Codes",
+    description: "A clinical NLP pipeline that turns a free-text doctor's note into standardized billing codes with calibrated confidence scores, span-level rationales, and a human-review flag. Top-1 accuracy improved from 53.4% to 86.2% through evaluation-first iteration.",
+    longDescription: "Medical coding means translating a doctor's notes into the standardized codes insurers bill against — work done by human coders who read notes all day, search a ~74,000-entry codebook, and try not to make mistakes that get claims rejected. DxMap automates the first pass. Paste a clinical note and it returns ICD-10-CM diagnoses and CPT procedures, each with a confidence score, the exact substring of the note that justifies it, and a flag on anything the model isn't sure about. The interesting part is that the hard problem isn't the LLM — it's retrieval. A note runs through four stages: NegEx negation detection strips ruled-out findings before they can pollute the query; spaCy decomposes the note into one retrieval query per condition so a dominant diagnosis can't crowd out secondary ones; BM25 and dense retrieval run in parallel and fuse via Reciprocal Rank Fusion; and a provider-swappable LLM reranks the top candidates, attributes each to a span, and drops negated findings as a second line of defense. Confidences then pass through isotonic regression so the percentages mean what they say. Every accuracy gain came from building the evaluation harness first and fixing measured failure modes — the harness also caught two errors in my own hand-labeled gold set. Known limits are documented rather than hidden: multi-hop combination codes (linking a complication to its cause), Z-code preventive visits, and notes with three or more active conditions still fail more than I'd like, and at 58 eval examples some of the tuning is effectively overfitting.",
+    thumbnail: "🩺",
+    logo: "/projects/dxmap/dxmap-logo.png",
+    github: "https://github.com/tyblue18/DxMap",
+    demo: "https://dx-map.vercel.app/",
+    embeddedDemo: {
+      type: "iframe",
+      src: "https://dx-map.vercel.app/",
+      height: "850px"
+    },
+    tags: ["Python", "FastAPI", "NLP", "RAG", "LLM", "Healthcare"],
+    featured: true,
+    technologies: [
+      "Python 3.12",
+      "FastAPI",
+      "spaCy",
+      "negspacy (NegEx)",
+      "rank-bm25",
+      "Chroma",
+      "BAAI/bge-small-en-v1.5",
+      "sentence-transformers",
+      "OpenAI (GPT-4o-mini)",
+      "Anthropic",
+      "Google Gemini",
+      "scikit-learn",
+      "Next.js 14",
+      "TypeScript",
+      "Tailwind CSS",
+      "pytest"
+    ],
+    challenges: [
+      "Secondary diagnoses were being crowded out — in a note about type 2 diabetes with hypertension, the diabetes embedding dominated the space and pushed I10 out of the top 20. Decomposing the note into one retrieval query per noun chunk and named entity fixed it",
+      "Negation was messier than expected: NegEx operates on named entities, but spaCy's general English model doesn't recognise most clinical terms as entities, so 'no chest pain' and 'no ST-segment elevation' became live queries. Fixed with two layers — a prefix filter plus a 70-character context-window check that catches negated sub-chunks the prefix filter misses",
+      "J44.89 (other COPD) has a description that is a token superset of both J44.1 and J44.9, so it always outscored the more specific codes. Solved with context-specific synonyms that issue an extra query for the exact target description",
+      "Bridging clinical shorthand to ICD-preferred phrasing with a synonym table — BM25 will never connect 'vasovagal syncope' to the actual ICD description 'syncope and collapse'",
+      "Making BM25 and dense retrieval genuinely complementary: BM25 anchors rare terms like Tietze syndrome that the embedding model has barely seen, dense retrieval catches paraphrases and abbreviations, and Reciprocal Rank Fusion merges them with no tuning",
+      "Calibrating raw LLM confidence with isotonic regression so a reported 90% actually behaves like 90%",
+      "Designing reranker safety guards and testing them: a hallucinated code outside the candidate list is dropped, and an LLM outage falls back to retrieval order with the human-review flag set"
+    ],
+    results: [
+      "Top-1 accuracy improved from 53.4% to 86.2%, and top-5 from 63.8% to 91.4%, entirely through evaluation-first iteration on measured failure modes",
+      "Every suggested code carries a calibrated confidence score and the exact span of the note that justifies it, so a human coder can audit the reasoning instead of trusting a black box",
+      "Retrieval runs over the full ~74,000-code ICD-10-CM set using hybrid BM25 + dense search fused with RRF",
+      "Provider-agnostic reranking — OpenAI, Anthropic, or Gemini, swapped by environment variable",
+      "The eval harness caught two errors in my own hand-labeled gold set (a retired M75.12 code and an incorrect bilateral carpal-tunnel label), which is the strongest argument for writing it first",
+      "Structured limitations documented rather than hidden: multi-hop combination codes, Z-code preventive visits, and three-condition notes remain open problems",
+      "pytest suite with the LLM call mocked, covering the negation detector and all three reranker safety guards"
+    ],
+    date: "2026",
+    metrics: [
+      {
+        label: "Top-1 Accuracy",
+        value: "86.2%",
+        description: "Up from a 53.4% naive baseline"
+      },
+      {
+        label: "Top-5 Accuracy",
+        value: "91.4%",
+        description: "Up from a 63.8% naive baseline"
+      },
+      {
+        label: "ICD-10-CM Corpus",
+        value: "~74k",
+        description: "Codes indexed for hybrid BM25 + dense retrieval"
+      },
+      {
+        label: "Retrieval",
+        value: "Hybrid",
+        description: "BM25 + dense embeddings fused with Reciprocal Rank Fusion"
+      }
+    ],
+    images: [
+      {
+        src: "/projects/dxmap/dxmap-screenshot.png",
+        alt: "The DxMap demo: a clinical note about type 2 diabetes and hypertension on the left, with suggested ICD-10-CM and CPT codes, confidence scores, and rationales on the right",
+        caption: "The DxMap interface on a diabetes-plus-hypertension note. Each suggestion carries a calibrated confidence and a plain-language rationale: E11.65 is preferred over E11.9 because the documented HbA1c of 8.2 indicates active poor control, and I10 is supported by the in-office BP of 152/94. This note is exactly the multi-condition case that motivated query decomposition — without it, the diabetes embedding crowds I10 out of the candidate set entirely."
+      }
+    ],
+  },
+  {
+    slug: "uv-rust-contribution",
+    title: "astral-sh/uv — Open-Source Fix in Rust",
+    description: "A bug that crashed every uv command with a raw OS error, fixed upstream in Astral's Python package manager — in Rust, a language I taught myself for the contribution. PR #19762, closing issue #14584.",
+    longDescription: "If any directory between your working directory and the filesystem root happened to be named `pyproject.toml` or `uv.toml`, every single uv command died with a raw, unexplained OS error: `failed to read from file /pyproject.toml: Is a directory (os error 21)`. The reason it hit everything is that the failure lived in settings discovery — `FilesystemOptions::find` walks up the directory tree during CLI config resolution, before any command logic runs at all, and `from_directory` only tolerated `NotFound` when reading a config file. So `uv venv`, `uv pip`, `uv lock` — all of them, regardless of whether they did any project discovery. My first attempt put a guard in `uv-workspace`, which was the intuitive place to look but the wrong one: it only covered commands that actually perform project discovery, so it fixed the symptom in some paths and missed it in others. After reviewer feedback I reverted that entirely and moved the fix into `uv-settings`, where the walk actually happens. `from_directory` now returns a typed `Error::Directory`, and `FilesystemOptions::find` propagates it only when the offending directory is at the top level of the search — for parent directories it emits a `warn!` and keeps walking, so a stray directory three levels up no longer takes down your build. I documented the one edge case I knew I wasn't covering rather than leaving it to be discovered later.",
+    thumbnail: "🦀",
+    github: "https://github.com/astral-sh/uv/pull/19762",
+    demo: null,
+    tags: ["Rust", "Open Source", "CLI Tooling", "Debugging", "Systems"],
+    featured: true,
+    technologies: [
+      "Rust",
+      "Cargo",
+      "Clippy",
+      "rustfmt",
+      "Snapshot Testing",
+      "Integration Testing",
+      "Git & GitHub"
+    ],
+    challenges: [
+      "Tracing the real root cause across crate boundaries — my first fix went into `uv-workspace`, which only covers commands that perform project discovery, so it missed `uv venv` and `uv pip` entirely. The bug was one layer down in `uv-settings`, where config resolution walks the tree before any command logic runs",
+      "Learning enough Rust to work inside a large, unfamiliar production codebase — reading the crate graph, following the error types, and matching the project's existing conventions rather than importing my own",
+      "Getting the error boundary right: failing loudly when the bad directory is the one you're standing in, but only warning and continuing when it's a parent, so an unrelated directory far up the tree can't break an otherwise valid project",
+      "Introducing a typed `Error::Directory` instead of letting a raw `os error 21` reach the user, so the message explains what's actually wrong",
+      "Verifying the fix didn't break adjacent behaviour — symlinks named `pyproject.toml` that point at real files still resolve (since `is_dir()` follows symlinks), and `uv venv --no-config` still succeeds",
+      "Taking review feedback that invalidated my original approach and reverting it cleanly rather than defending it"
+    ],
+    results: [
+      "Every uv command now either works or fails with a clear message — `error: pyproject.toml is a directory, expected a file` instead of a raw `os error 21`",
+      "A stray directory named `pyproject.toml` in a parent no longer breaks anything; it downgrades to a `-v` warning and the command resolves normally",
+      "Five integration tests on the project's standard snapshot harness, covering both `pyproject.toml` and `uv.toml`, in both the working directory and a parent, plus a non-project command (`uv venv`) to prove the fix reaches commands that skip project discovery",
+      "Manually verified against a built binary: the verbose warning path, symlink handling, and `--no-config`",
+      "`cargo fmt --all --check` and `cargo clippy --all-targets -- -D warnings` clean",
+      "One known edge case documented in the PR rather than left to be found later: a `pyproject.toml` directory in the CWD is still skipped when a valid project exists in a parent, because the settings search starts at the workspace root",
+      "Open and under review upstream (+178 / −1 across 3 files); submitted as a CodePath Advanced AI (AI301) capstone"
+    ],
+    date: "2026",
+    metrics: [
+      {
+        label: "Blast Radius",
+        value: "Every command",
+        description: "The crash fired during config resolution, before any command logic ran"
+      },
+      {
+        label: "Integration Tests",
+        value: "5",
+        description: "Snapshot-harness tests across uv lock and uv venv"
+      },
+      {
+        label: "Diff Size",
+        value: "+178 / −1",
+        description: "Across 3 files, all within the uv-settings crate"
+      },
+      {
+        label: "Language",
+        value: "Rust",
+        description: "Self-taught for this contribution"
       }
     ],
   },

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { PROFILE } from "@/data/profile";
 
 export default function GrungeHero() {
   const [mounted, setMounted] = useState(false);
@@ -92,7 +93,7 @@ export default function GrungeHero() {
               fontFamily: 'monospace',
             }}
           >
-            SOFTWARE ENGINEER
+            {PROFILE.role.toUpperCase()}
           </p>
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 h-0.5 bg-red-600" style={{
             transform: 'translateX(-50%) rotate(1deg)',
@@ -109,7 +110,7 @@ export default function GrungeHero() {
             fontFamily: 'monospace',
           }}
         >
-          Building scalable systems, optimizing performance, and solving complex problems at the intersection of software engineering and AI.
+          {PROFILE.summary}
         </p>
 
         {/* CTA Buttons - grunge style */}

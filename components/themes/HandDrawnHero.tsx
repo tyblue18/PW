@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { PROFILE } from "@/data/profile";
 
 export default function HandDrawnHero() {
   const [mounted, setMounted] = useState(false);
@@ -96,7 +97,7 @@ export default function HandDrawnHero() {
             fontStyle: 'italic',
           }}
         >
-          Software Engineer
+          {PROFILE.role}
         </p>
 
         {/* Description */}
@@ -109,7 +110,7 @@ export default function HandDrawnHero() {
             fontFamily: 'Georgia, serif',
           }}
         >
-          Building scalable systems, optimizing performance, and solving complex problems at the intersection of software engineering and AI.
+          {PROFILE.summary}
         </p>
 
         {/* CTA Buttons - hand-drawn style */}

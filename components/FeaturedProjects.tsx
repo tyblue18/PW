@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { getFeaturedProjects } from "@/data/projects";
 
 export default function FeaturedProjects() {
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
   const projects = getFeaturedProjects();
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export default function FeaturedProjects() {
             return (
               <div
                 key={project.slug}
-                onClick={() => window.location.href = `/projects/${project.slug}`}
+                onClick={() => router.push(`/projects/${project.slug}`)}
                 className={`group bg-white/5 border border-white/10 rounded-xl p-6 sm:p-8 hover:bg-white/10 hover:border-teal-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-teal-500/20 hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] touch-manipulation cursor-pointer ${
                   mounted ? "opacity-100" : "opacity-0"
                 }`}
@@ -113,9 +115,12 @@ export default function FeaturedProjects() {
                 </div>
 
                 <div className="flex gap-3 sm:gap-4 mt-6 sm:mt-8 flex-wrap" onClick={(e) => e.stopPropagation()}>
-                  <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold rounded border border-teal-500/50 transition-all duration-300 text-xs sm:text-sm pointer-events-none">
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold rounded border border-teal-500/50 hover:from-teal-500 hover:to-cyan-500 transition-all duration-300 text-xs sm:text-sm active:scale-95 touch-manipulation focus:outline-none focus:ring-2 focus:ring-teal-400"
+                  >
                     View Details →
-                  </span>
+                  </Link>
                   {project.demo && project.demo === "#demo" && (
                     <button
                       onClick={(e) => {

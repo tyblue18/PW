@@ -2,6 +2,16 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { PROFILE } from "@/data/profile";
+
+const TAGLINE = PROFILE.tagline;
+
+/** Chip colours, positionally matched to PROFILE.pillars. */
+const PILLAR_STYLES = [
+  "bg-teal-500/10 border-teal-500/30 text-teal-300",
+  "bg-purple-500/10 border-purple-500/30 text-purple-300",
+  "bg-cyan-500/10 border-cyan-500/30 text-cyan-300",
+];
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -26,7 +36,7 @@ export default function Hero() {
         clearInterval(nameInterval);
         const timeout1 = setTimeout(() => {
           // Step 2: Tagline
-          const taglineText = "Software Engineer | Backend & AI Systems | Performance Optimization";
+          const taglineText = TAGLINE;
           let taglineIndex = 0;
           const taglineInterval = setInterval(() => {
             if (taglineIndex < taglineText.length) {
@@ -160,24 +170,23 @@ export default function Hero() {
               <p className="text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-white mb-3 md:mb-4 leading-tight break-words min-h-[1.5em]">
                 <span className="inline-block min-w-0">
                   {typedTagline || "\u00A0"}
-                  {typedTagline.length < "Software Engineer | Backend & AI Systems | Performance Optimization".length && (
+                  {typedTagline.length < TAGLINE.length && (
                     <span className="text-teal-400 animate-pulse inline-block w-2">_</span>
                   )}
-                  {typedTagline.length === "Software Engineer | Backend & AI Systems | Performance Optimization".length && (
+                  {typedTagline.length === TAGLINE.length && (
                     <span className={`text-teal-400 inline-block w-2 ${showCursor ? 'opacity-100' : 'opacity-0'}`}>_</span>
                   )}
                 </span>
               </p>
               <div className="flex flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm text-gray-300 font-mono mb-4">
-                <span className="px-2.5 sm:px-3 py-1 bg-teal-500/10 border border-teal-500/30 rounded text-teal-300">
-                  Backend Systems
-                </span>
-                <span className="px-2.5 sm:px-3 py-1 bg-purple-500/10 border border-purple-500/30 rounded text-purple-300">
-                  AI/ML
-                </span>
-                <span className="px-2.5 sm:px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 rounded text-cyan-300">
-                  HPC
-                </span>
+                {PROFILE.pillars.map((pillar, i) => (
+                  <span
+                    key={pillar}
+                    className={`px-2.5 sm:px-3 py-1 border rounded ${PILLAR_STYLES[i % PILLAR_STYLES.length]}`}
+                  >
+                    {pillar}
+                  </span>
+                ))}
               </div>
             </div>
 
@@ -192,7 +201,7 @@ export default function Hero() {
                 minHeight: '3em' // Reserve space to prevent shifting
               }}
             >
-              Building scalable systems, optimizing performance, and solving complex problems at the intersection of software engineering and AI.
+              {PROFILE.summary}
             </p>
 
             {/* CTA Buttons - More prominent */}

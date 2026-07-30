@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "PowerShell(npx tsc --noEmit -p tsconfig.json)",
-      "PowerShell(node \"C:\\\\Users\\\\tanis\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-tanis-OneDrive-Desktop-PW\\\\32978e80-7d41-4fb7-9709-fb884efd2d86\\\\scratchpad\\\\reorder.js\")"
+      "PowerShell(node \"C:\\\\Users\\\\tanis\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-tanis-OneDrive-Desktop-PW\\\\32978e80-7d41-4fb7-9709-fb884efd2d86\\\\scratchpad\\\\reorder.js\")",
+      "PowerShell(npm run lint 2>&1)",
+      "PowerShell(if \\($?\\) { \"TYPECHECK OK\" })"
     ]
   }
 }

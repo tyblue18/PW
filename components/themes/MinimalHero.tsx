@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { PROFILE } from "@/data/profile";
 
 export default function MinimalHero() {
   const [mounted, setMounted] = useState(false);
@@ -55,7 +56,7 @@ export default function MinimalHero() {
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          Software Engineer
+          {PROFILE.role}
         </p>
 
         {/* Description */}
@@ -64,7 +65,7 @@ export default function MinimalHero() {
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          Building scalable systems, optimizing performance, and solving complex problems at the intersection of software engineering and AI.
+          {PROFILE.summary}
         </p>
 
         {/* CTA Buttons */}

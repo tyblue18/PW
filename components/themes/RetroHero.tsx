@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { PROFILE } from "@/data/profile";
 
 export default function RetroHero() {
   const [mounted, setMounted] = useState(false);
@@ -81,7 +82,7 @@ export default function RetroHero() {
             textShadow: '0 0 10px rgba(236, 72, 153, 0.6)',
           }}
         >
-          &gt; SOFTWARE_ENGINEER.exe
+          &gt; {PROFILE.role.toUpperCase().replace(/ & /g, "_").replace(/\s+/g, "_")}.exe
         </p>
 
         {/* Description */}
@@ -90,7 +91,7 @@ export default function RetroHero() {
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          Building scalable systems, optimizing performance, and solving complex problems.
+          {PROFILE.summary}
         </p>
 
         {/* CTA Buttons */}

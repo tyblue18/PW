@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { PROFILE } from "@/data/profile";
 
 export default function NotebookHero() {
   const [mounted, setMounted] = useState(false);
@@ -111,7 +112,7 @@ export default function NotebookHero() {
             fontStyle: 'italic',
           }}
         >
-          Software Engineer
+          {PROFILE.role}
         </p>
 
         {/* Description - like journal entry */}
@@ -125,7 +126,7 @@ export default function NotebookHero() {
             lineHeight: '1.8',
           }}
         >
-          Building scalable systems, optimizing performance, and solving complex problems at the intersection of software engineering and AI.
+          {PROFILE.summary}
         </p>
 
         {/* CTA Buttons - like checkboxes or notes */}
